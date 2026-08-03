@@ -25,13 +25,13 @@
     "dist",
     "!dist/**/*.map"
   ],
-  "homepage": "https://github.com/fpfe-group/email-editor-ai.git",
+  "homepage": "https://fpfe-group.github.io/email-editor-ai/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fpfe-group/email-editor-ai.git"
   },
   "bugs": {
-    "url": "https://github.com/fpfe-group/email-editor-ai.git"
+    "url": "https://github.com/fpfe-group/email-editor-ai/issues"
   },
   "keywords": [
     "email-editor-ai",

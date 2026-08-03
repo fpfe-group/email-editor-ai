@@ -122,8 +122,8 @@ test: add ESP export preset tests
 ## 问题与反馈
 
 - 发起 [GitHub Discussion](https://github.com/fpfe-group/email-editor-ai.git)。
-- 提交 [Bug Report](https://github.com/fpfe-group/email-editor-ai.git)。
-- 提交 [功能建议](https://github.com/fpfe-group/email-editor-ai.git)。
+- 提交 [Bug Report](https://github.com/fpfe-group/email-editor-ai/issues)。
+- 提交 [功能建议](https://github.com/fpfe-group/email-editor-ai/pulls)。
 
 ## 许可证
 
