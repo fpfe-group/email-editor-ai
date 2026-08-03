@@ -1,6 +1,6 @@
 {
   "name": "@fpfe-group/email-editor-ai",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "基于 Vue 3 和 MJML 的拖拽式 AI 邮件编辑器",
   "license": "MIT",
   "type": "module",
@@ -28,17 +28,17 @@
   "homepage": "https://github.com/fpfe-group/email-editor-ai.git",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fpfe-group/email-editor-ai.git"
+    "url": "git+https://github.com/fpfe-group/email-editor-ai.git"
   },
   "bugs": {
     "url": "https://github.com/fpfe-group/email-editor-ai.git"
   },
   "keywords": [
+    "email-editor-ai",
     "fridayparts",
     "fpfe",
     "vue",
     "vue3",
-    "email",
     "editor",
     "ai",
     "mjml",
@@ -78,7 +78,12 @@
     "typecheck": "vue-tsc --noEmit",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "beta-version": "npm version prerelease --preid=beta",
+    "patch-version": "npm version patch",
+    "minor-version": "npm version minor",
+    "major-version": "npm version major",
+    "deploy": "npm publish"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",
