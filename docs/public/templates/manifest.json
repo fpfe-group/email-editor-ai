@@ -1,0 +1,656 @@
+[
+  {
+    "id": "blank",
+    "label": "空白模板",
+    "description": "从空白内容开始",
+    "color": "#9ca3af",
+    "file": "blank.html",
+    "category": "marketing",
+    "tags": [
+      "empty",
+      "blank",
+      "new"
+    ]
+  },
+  {
+    "id": "newsletter",
+    "label": "Newsletter",
+    "description": "新闻和文章内容",
+    "color": "#3b82f6",
+    "file": "newsletter.html",
+    "category": "marketing",
+    "tags": [
+      "newsletter",
+      "content",
+      "blog",
+      "articles"
+    ]
+  },
+  {
+    "id": "promotion",
+    "label": "促销活动",
+    "description": "销售优惠",
+    "color": "#dc2626",
+    "file": "promotion.html",
+    "category": "marketing",
+    "tags": [
+      "promotion",
+      "sale",
+      "deals",
+      "offer"
+    ]
+  },
+  {
+    "id": "welcome",
+    "label": "欢迎邮件",
+    "description": "新客户引导",
+    "color": "#01A8AB",
+    "file": "welcome.html",
+    "category": "engagement",
+    "tags": [
+      "welcome",
+      "onboarding",
+      "signup",
+      "new user"
+    ]
+  },
+  {
+    "id": "order-confirmation",
+    "label": "订单确认",
+    "description": "订单收据",
+    "color": "#16a34a",
+    "file": "order-confirmation.html",
+    "category": "transactionnel",
+    "tags": [
+      "order",
+      "confirmation",
+      "purchase",
+      "transactional"
+    ]
+  },
+  {
+    "id": "event",
+    "label": "活动邀请",
+    "description": "活动邀请邮件",
+    "color": "#7c3aed",
+    "file": "event.html",
+    "category": "evenement",
+    "tags": [
+      "event",
+      "invitation",
+      "conference"
+    ]
+  },
+  {
+    "id": "notification",
+    "label": "通知",
+    "description": "提醒或更新通知",
+    "color": "#f59e0b",
+    "file": "notification.html",
+    "category": "transactionnel",
+    "tags": [
+      "notification",
+      "alert",
+      "update"
+    ]
+  },
+  {
+    "id": "password-reset",
+    "label": "重置密码",
+    "description": "密码重置请求",
+    "color": "#6366f1",
+    "file": "password-reset.html",
+    "category": "transactionnel",
+    "tags": [
+      "password",
+      "security",
+      "reset"
+    ]
+  },
+  {
+    "id": "abandoned-cart",
+    "label": "弃购挽回",
+    "description": "购物车挽回",
+    "color": "#ea580c",
+    "file": "abandoned-cart.html",
+    "category": "marketing",
+    "tags": [
+      "cart",
+      "abandoned",
+      "e-commerce",
+      "recovery"
+    ]
+  },
+  {
+    "id": "product-launch",
+    "label": "新品发布",
+    "description": "新品公告",
+    "color": "#0891b2",
+    "file": "product-launch.html",
+    "category": "marketing",
+    "tags": [
+      "product",
+      "launch",
+      "new",
+      "announcement"
+    ]
+  },
+  {
+    "id": "survey",
+    "label": "问卷调研",
+    "description": "客户满意度调研",
+    "color": "#059669",
+    "file": "survey.html",
+    "category": "engagement",
+    "tags": [
+      "survey",
+      "feedback",
+      "satisfaction",
+      "review"
+    ]
+  },
+  {
+    "id": "referral",
+    "label": "推荐计划",
+    "description": "好友推荐活动",
+    "color": "#8b5cf6",
+    "file": "referral.html",
+    "category": "engagement",
+    "tags": [
+      "referral",
+      "reference",
+      "reward",
+      "friends"
+    ]
+  },
+  {
+    "id": "re-engagement",
+    "label": "重新激活",
+    "description": "召回不活跃用户",
+    "color": "#e11d48",
+    "file": "re-engagement.html",
+    "category": "engagement",
+    "tags": [
+      "re-engagement",
+      "inactive",
+      "win-back",
+      "loyalty"
+    ]
+  },
+  {
+    "id": "webinar",
+    "label": "线上研讨会",
+    "description": "线上研讨会邀请",
+    "color": "#2563eb",
+    "file": "webinar.html",
+    "category": "evenement",
+    "tags": [
+      "webinar",
+      "online",
+      "presentation",
+      "training"
+    ]
+  },
+  {
+    "id": "receipt",
+    "label": "付款收据",
+    "description": "支付收据",
+    "color": "#0d9488",
+    "file": "receipt.html",
+    "category": "transactionnel",
+    "tags": [
+      "receipt",
+      "payment",
+      "invoice",
+      "transaction"
+    ]
+  },
+  {
+    "id": "shipping",
+    "label": "发货通知",
+    "description": "发货确认",
+    "color": "#0284c7",
+    "file": "shipping.html",
+    "category": "transactionnel",
+    "tags": [
+      "shipping",
+      "delivery",
+      "package",
+      "tracking"
+    ]
+  },
+  {
+    "id": "birthday",
+    "label": "生日祝福",
+    "description": "生日祝福邮件",
+    "color": "#ec4899",
+    "file": "birthday.html",
+    "category": "engagement",
+    "tags": [
+      "birthday",
+      "celebration",
+      "special offer",
+      "gift"
+    ]
+  },
+  {
+    "id": "seasonal-sale",
+    "label": "季节促销",
+    "description": "季节性促销活动",
+    "color": "#1d4ed8",
+    "file": "seasonal-sale.html",
+    "category": "marketing",
+    "tags": [
+      "sale",
+      "season",
+      "promotion",
+      "discount"
+    ]
+  },
+  {
+    "id": "saas-onboarding",
+    "label": "SaaS 引导",
+    "description": "应用新手引导流程",
+    "color": "#7c3aed",
+    "file": "saas-onboarding.html",
+    "category": "engagement",
+    "tags": [
+      "onboarding",
+      "saas",
+      "welcome",
+      "getting started"
+    ]
+  },
+  {
+    "id": "testimonials",
+    "label": "客户评价",
+    "description": "客户评价与信任背书",
+    "color": "#d97706",
+    "file": "testimonials.html",
+    "category": "marketing",
+    "tags": [
+      "testimonials",
+      "reviews",
+      "customers",
+      "social proof"
+    ]
+  },
+  {
+    "id": "real-estate",
+    "label": "房地产",
+    "description": "房源展示",
+    "color": "#15803d",
+    "file": "real-estate.html",
+    "category": "industrie",
+    "tags": [
+      "real estate",
+      "listing",
+      "property",
+      "agency"
+    ]
+  },
+  {
+    "id": "restaurant",
+    "label": "餐厅",
+    "description": "菜单与预约",
+    "color": "#b45309",
+    "file": "restaurant.html",
+    "category": "industrie",
+    "tags": [
+      "restaurant",
+      "menu",
+      "reservation",
+      "gastronomy"
+    ]
+  },
+  {
+    "id": "flash-sale",
+    "label": "限时闪购",
+    "description": "限时闪购活动",
+    "color": "#e11d48",
+    "file": "flash-sale.html",
+    "category": "marketing",
+    "tags": [
+      "flash",
+      "sale",
+      "urgent",
+      "limited"
+    ]
+  },
+  {
+    "id": "loyalty-program",
+    "label": "会员忠诚计划",
+    "description": "会员奖励更新",
+    "color": "#7c3aed",
+    "file": "loyalty-program.html",
+    "category": "marketing",
+    "tags": [
+      "loyalty",
+      "rewards",
+      "points",
+      "program"
+    ]
+  },
+  {
+    "id": "case-study",
+    "label": "案例研究",
+    "description": "客户成功故事",
+    "color": "#0891b2",
+    "file": "case-study.html",
+    "category": "marketing",
+    "tags": [
+      "case study",
+      "success",
+      "results",
+      "story"
+    ]
+  },
+  {
+    "id": "account-verification",
+    "label": "账号验证",
+    "description": "邮箱验证请求",
+    "color": "#059669",
+    "file": "account-verification.html",
+    "category": "transactionnel",
+    "tags": [
+      "verification",
+      "account",
+      "email",
+      "confirm"
+    ]
+  },
+  {
+    "id": "subscription-renewal",
+    "label": "订阅续费",
+    "description": "续费提醒",
+    "color": "#d97706",
+    "file": "subscription-renewal.html",
+    "category": "transactionnel",
+    "tags": [
+      "subscription",
+      "renewal",
+      "billing",
+      "plan"
+    ]
+  },
+  {
+    "id": "invoice",
+    "label": "发票",
+    "description": "月度发票",
+    "color": "#334155",
+    "file": "invoice.html",
+    "category": "transactionnel",
+    "tags": [
+      "invoice",
+      "billing",
+      "payment",
+      "monthly"
+    ]
+  },
+  {
+    "id": "feedback-request",
+    "label": "反馈邀请",
+    "description": "购后反馈收集",
+    "color": "#8b5cf6",
+    "file": "feedback-request.html",
+    "category": "engagement",
+    "tags": [
+      "feedback",
+      "review",
+      "rating",
+      "experience"
+    ]
+  },
+  {
+    "id": "milestone",
+    "label": "里程碑",
+    "description": "成就庆祝",
+    "color": "#eab308",
+    "file": "milestone.html",
+    "category": "engagement",
+    "tags": [
+      "milestone",
+      "achievement",
+      "celebration",
+      "anniversary"
+    ]
+  },
+  {
+    "id": "win-back",
+    "label": "用户召回",
+    "description": "重新激活活动",
+    "color": "#dc2626",
+    "file": "win-back.html",
+    "category": "engagement",
+    "tags": [
+      "win-back",
+      "reactivation",
+      "comeback",
+      "inactive"
+    ]
+  },
+  {
+    "id": "conference",
+    "label": "会议邀请",
+    "description": "会议邀请邮件",
+    "color": "#4f46e5",
+    "file": "conference.html",
+    "category": "evenement",
+    "tags": [
+      "conference",
+      "event",
+      "summit",
+      "networking"
+    ]
+  },
+  {
+    "id": "workshop",
+    "label": "工作坊",
+    "description": "工作坊报名",
+    "color": "#0d9488",
+    "file": "workshop.html",
+    "category": "evenement",
+    "tags": [
+      "workshop",
+      "training",
+      "learn",
+      "hands-on"
+    ]
+  },
+  {
+    "id": "fitness",
+    "label": "健身健康",
+    "description": "健身与健康 Newsletter",
+    "color": "#16a34a",
+    "file": "fitness.html",
+    "category": "industrie",
+    "tags": [
+      "fitness",
+      "health",
+      "wellness",
+      "gym"
+    ]
+  },
+  {
+    "id": "travel",
+    "label": "旅行",
+    "description": "旅行优惠与目的地推荐",
+    "color": "#0ea5e9",
+    "file": "travel.html",
+    "category": "industrie",
+    "tags": [
+      "travel",
+      "vacation",
+      "destination",
+      "deals"
+    ]
+  },
+  {
+    "id": "education",
+    "label": "教育课程",
+    "description": "在线课程推广",
+    "color": "#6366f1",
+    "file": "education.html",
+    "category": "industrie",
+    "tags": [
+      "education",
+      "course",
+      "learning",
+      "online"
+    ]
+  },
+  {
+    "id": "fashion-gift-guide",
+    "label": "时尚礼品指南",
+    "description": "带商品区块的精致时尚礼品指南",
+    "color": "#2d5a3d",
+    "file": "fashion-gift-guide.html",
+    "category": "marketing",
+    "tags": [
+      "fashion",
+      "gift",
+      "e-commerce",
+      "luxury"
+    ]
+  },
+  {
+    "id": "womens-day",
+    "label": "女神节活动",
+    "description": "国际妇女节精致活动邮件",
+    "color": "#8b3a5a",
+    "file": "womens-day.html",
+    "category": "evenement",
+    "tags": [
+      "womens day",
+      "celebration",
+      "holiday",
+      "event"
+    ]
+  },
+  {
+    "id": "chinese-new-year",
+    "label": "春节活动",
+    "description": "春节节庆活动邮件",
+    "color": "#8b1a1a",
+    "file": "chinese-new-year.html",
+    "category": "evenement",
+    "tags": [
+      "chinese new year",
+      "lunar",
+      "festive",
+      "holiday"
+    ]
+  },
+  {
+    "id": "travel-newsletter",
+    "label": "旅行 Newsletter",
+    "description": "包含活动推荐的旅行目的地 Newsletter",
+    "color": "#2c8fa0",
+    "file": "travel-newsletter.html",
+    "category": "marketing",
+    "tags": [
+      "travel",
+      "newsletter",
+      "destination",
+      "vacation"
+    ]
+  },
+  {
+    "id": "product-launch-aurora",
+    "label": "新品发布",
+    "description": "深色科技产品发布公告",
+    "color": "#8b5cf6",
+    "file": "product-launch-aurora.html",
+    "category": "marketing",
+    "tags": [
+      "product",
+      "launch",
+      "tech",
+      "announcement"
+    ]
+  },
+  {
+    "id": "holiday-sale-christmas",
+    "label": "节日促销",
+    "description": "圣诞节日促销活动",
+    "color": "#c41e3a",
+    "file": "holiday-sale-christmas.html",
+    "category": "marketing",
+    "tags": [
+      "holiday",
+      "christmas",
+      "sale",
+      "e-commerce"
+    ]
+  },
+  {
+    "id": "welcome-series",
+    "label": "欢迎系列",
+    "description": "包含快速开始步骤的新手欢迎邮件",
+    "color": "#01A8AB",
+    "file": "welcome-series.html",
+    "category": "engagement",
+    "tags": [
+      "welcome",
+      "onboarding",
+      "getting started",
+      "series"
+    ]
+  },
+  {
+    "id": "summer-promo",
+    "label": "夏季促销",
+    "description": "带海滩氛围的夏季促销活动",
+    "color": "#e65100",
+    "file": "summer-promo.html",
+    "category": "marketing",
+    "tags": [
+      "summer",
+      "sale",
+      "beach",
+      "promotion"
+    ]
+  },
+  {
+    "id": "order-confirmation-phone",
+    "label": "订单确认",
+    "description": "包含商品明细的极简订单确认邮件",
+    "color": "#1a1a1a",
+    "file": "order-confirmation-phone.html",
+    "category": "transactionnel",
+    "tags": [
+      "order",
+      "confirmation",
+      "minimalist",
+      "transactional"
+    ]
+  },
+  {
+    "id": "weekly-digest",
+    "label": "每周摘要",
+    "description": "包含精选文章的现代内容摘要",
+    "color": "#1e293b",
+    "file": "weekly-digest.html",
+    "category": "marketing",
+    "tags": [
+      "weekly",
+      "digest",
+      "newsletter",
+      "articles"
+    ]
+  },
+  {
+    "id": "black-friday-deal",
+    "label": "黑五促销",
+    "description": "霓虹风格的黑五促销活动",
+    "color": "#ff00ff",
+    "file": "black-friday-deal.html",
+    "category": "marketing",
+    "tags": [
+      "black friday",
+      "sale",
+      "deals",
+      "e-commerce"
+    ]
+  }
+]

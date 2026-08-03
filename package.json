@@ -1,0 +1,98 @@
+{
+  "name": "@fpfe-group/email-editor-ai",
+  "version": "1.0.0",
+  "description": "基于 Vue 3 和 MJML 的拖拽式 AI 邮件编辑器",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/email-editor.js",
+  "module": "dist/email-editor.js",
+  "types": "dist/email-editor.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/email-editor.d.ts",
+      "import": "./dist/email-editor.js"
+    },
+    "./style.css": "./dist/email-editor.css"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map"
+  ],
+  "homepage": "https://github.com/fpfe-group/email-editor-ai.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fpfe-group/email-editor-ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fpfe-group/email-editor-ai.git"
+  },
+  "keywords": [
+    "fridayparts",
+    "fpfe",
+    "vue",
+    "vue3",
+    "email",
+    "editor",
+    "ai",
+    "mjml",
+    "drag-and-drop",
+    "email-builder",
+    "newsletter"
+  ],
+  "peerDependencies": {
+    "mjml-browser": "^4.15.0",
+    "vue": "^3.4.0"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.8.0",
+    "@codemirror/lang-xml": "^6.1.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/theme-one-dark": "^6.1.0",
+    "@codemirror/view": "^6.38.0",
+    "@tiptap/extension-color": "^3.20.0",
+    "@tiptap/extension-link": "^3.20.0",
+    "@tiptap/extension-text-align": "^3.20.0",
+    "@tiptap/extension-text-style": "^3.20.0",
+    "@tiptap/extension-underline": "^3.20.0",
+    "@tiptap/starter-kit": "^3.2.0",
+    "@tiptap/vue-3": "^3.2.0",
+    "@vueuse/core": "^13.0.0",
+    "lodash": "^4.17.21",
+    "lucide-vue-next": ">=0.400.0",
+    "nanoid": "^5.1.0"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.59.0"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.0",
+    "@types/mjml-browser": "^4.15.0",
+    "@vitejs/plugin-vue": "^5.2.0",
+    "@vue/test-utils": "^2.4.0",
+    "happy-dom": "^15.0.0",
+    "mjml": "^4.18.0",
+    "typescript": "~5.8.0",
+    "vite": "^6.0.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitepress": "^1.6.4",
+    "vitest": "^3.0.0",
+    "vue": "^3.5.0",
+    "vue-tsc": "^2.2.0"
+  }
+}
