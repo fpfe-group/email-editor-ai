@@ -13,6 +13,7 @@
   一个基于 <strong>Vue 3</strong> 和 <strong>MJML</strong> 构建的专业级<strong>拖拽式</strong>邮件编辑器。<br/>
   可视化设计响应式 HTML 邮件，内置 43 个区块、AI 生成、Merge Tags、插件、i18n 等能力。
 </p>
+
 |                    拖拽式编辑器                     |                          预置模板                          |
 | :-------------------------------------------------: | :--------------------------------------------------------: |
 | ![区块面板](src/assets/capture_blocs_layouts_1.png) | ![现成组合区块](src/assets/capture_blocs_ready_made_1.png) |
