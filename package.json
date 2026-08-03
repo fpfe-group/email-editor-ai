@@ -1,6 +1,6 @@
 {
   "name": "@fpfe-group/email-editor-ai",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "基于 Vue 3 和 MJML 的拖拽式 AI 邮件编辑器",
   "license": "MIT",
   "type": "module",
