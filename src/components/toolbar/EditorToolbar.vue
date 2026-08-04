@@ -7,14 +7,15 @@ import { EMAIL_LABELS_KEY, DEFAULT_LABELS } from '../../labels'
 
 const props = defineProps<{
   isFullscreen: boolean
-  activeView: 'visual' | 'code'
+  activeView: 'visual' | 'mjml' | 'html'
   activeDeviceIndex: number
   isDarkPreview: boolean
 }>()
 
 const emit = defineEmits<{
   'toggle-fullscreen': []
-  'toggle-code-view': []
+  'toggle-mjml-view': []
+  'toggle-html-view': []
   'toggle-dark-preview': []
   'update:activeDeviceIndex': [index: number]
 }>()
@@ -100,13 +101,23 @@ function redo() {
       </button>
       <button
         class="ebb-toolbar__action-btn"
-        :class="{ 'ebb-toolbar__action-btn--active': activeView === 'code' }"
-        :aria-pressed="activeView === 'code'"
-        :title="labels.code"
-        :aria-label="labels.code"
-        @click="emit('toggle-code-view')"
+        :class="{ 'ebb-toolbar__action-btn--active': activeView === 'mjml' }"
+        :aria-pressed="activeView === 'mjml'"
+        :title="labels.mjml_code"
+        :aria-label="labels.mjml_code"
+        @click="emit('toggle-mjml-view')"
       >
         <EIcon name="Code" :size="16" />
+      </button>
+      <button
+        class="ebb-toolbar__action-btn"
+        :class="{ 'ebb-toolbar__action-btn--active': activeView === 'html' }"
+        :aria-pressed="activeView === 'html'"
+        :title="labels.html_code"
+        :aria-label="labels.html_code"
+        @click="emit('toggle-html-view')"
+      >
+        <EIcon name="FileCode2" :size="16" />
       </button>
       <div class="ebb-toolbar__divider"></div>
       <button

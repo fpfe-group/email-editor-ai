@@ -55,7 +55,7 @@ const labels = inject(EMAIL_LABELS_KEY, DEFAULT_LABELS)
 const doc = inject(EMAIL_DOCUMENT_KEY)!
 
 const isFullscreen = ref(false)
-const activeView = ref<'visual' | 'code'>('visual')
+const activeView = ref<'visual' | 'mjml' | 'html'>('visual')
 const initError = ref('')
 const activeDeviceIndex = ref(0)
 const isDarkPreview = ref(false)
@@ -66,8 +66,12 @@ function toggleFullscreen() {
   isFullscreen.value = !isFullscreen.value
 }
 
-function toggleCodeView() {
-  activeView.value = activeView.value === 'visual' ? 'code' : 'visual'
+function toggleMjmlView() {
+  activeView.value = activeView.value === 'mjml' ? 'visual' : 'mjml'
+}
+
+function toggleHtmlView() {
+  activeView.value = activeView.value === 'html' ? 'visual' : 'html'
 }
 
 function toggleDarkPreview() {
@@ -110,7 +114,8 @@ function toggleDarkPreview() {
         :active-device-index="activeDeviceIndex"
         :is-dark-preview="isDarkPreview"
         @toggle-fullscreen="toggleFullscreen"
-        @toggle-code-view="toggleCodeView"
+        @toggle-mjml-view="toggleMjmlView"
+        @toggle-html-view="toggleHtmlView"
         @toggle-dark-preview="toggleDarkPreview"
         @update:active-device-index="activeDeviceIndex = $event"
       />
@@ -121,7 +126,11 @@ function toggleDarkPreview() {
         <EditorCanvas v-show="activeView === 'visual'" :canvas-width="canvasWidth" :dark-preview="isDarkPreview" />
 
         <!-- Code view (CodeMirror) -->
-        <CodeEditor v-if="activeView === 'code'" />
+        <CodeEditor
+          v-if="activeView === 'mjml' || activeView === 'html'"
+          :key="activeView"
+          :source-type="activeView"
+        />
 
         <!-- Right Sidebar -->
         <EditorSidebar />

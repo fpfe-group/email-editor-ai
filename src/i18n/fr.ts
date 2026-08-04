@@ -10,6 +10,8 @@ export const FR_LABELS: EditorLabels = {
   redo: 'Rétablir',
   editor_title: 'Éditeur email',
   code: 'Code',
+  mjml_code: 'Code MJML',
+  html_code: 'Code HTML',
   fullscreen: 'Plein écran',
   desktop: 'Bureau',
   tablet: 'Tablette',

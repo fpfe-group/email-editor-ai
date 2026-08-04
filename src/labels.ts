@@ -10,6 +10,8 @@ export interface EditorLabels {
   redo: string
   editor_title: string
   code: string
+  mjml_code: string
+  html_code: string
   fullscreen: string
   desktop: string
   tablet: string
@@ -288,6 +290,8 @@ export const DEFAULT_LABELS: EditorLabels = {
   redo: '重做',
   editor_title: '邮件编辑器',
   code: '源码',
+  mjml_code: 'MJML 代码',
+  html_code: 'HTML 代码',
   fullscreen: '全屏',
   desktop: '桌面端',
   tablet: '平板端',
