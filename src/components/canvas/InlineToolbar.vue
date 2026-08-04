@@ -141,7 +141,7 @@ async function submitAiPrompt() {
     }
 
     if (props.editor) {
-      props.editor.chain().focus().insertContent(cleanedResult).run()
+      applyAiPromptResult(cleanedResult)
       showAiPrompt.value = false
       showAiMenu.value = false
       aiPromptText.value = ''
@@ -154,6 +154,18 @@ async function submitAiPrompt() {
   } finally {
     aiLoading.value = false
   }
+}
+
+function applyAiPromptResult(result: string) {
+  if (!props.editor) return
+
+  const { from, to } = props.editor.state.selection
+  if (from !== to) {
+    props.editor.chain().focus().deleteRange({ from, to }).insertContent(result).run()
+    return
+  }
+
+  props.editor.chain().focus().setContent(result).run()
 }
 
 function buildInlinePrompt(userPrompt: string, context: string): string {

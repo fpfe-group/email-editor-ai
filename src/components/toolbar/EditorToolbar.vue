@@ -100,24 +100,94 @@ function redo() {
         <EIcon :name="isDarkPreview ? 'Sun' : 'Moon'" :size="16" />
       </button>
       <button
-        class="ebb-toolbar__action-btn"
+        class="ebb-toolbar__action-btn ebb-toolbar__action-btn--code"
         :class="{ 'ebb-toolbar__action-btn--active': activeView === 'mjml' }"
         :aria-pressed="activeView === 'mjml'"
         :title="labels.mjml_code"
         :aria-label="labels.mjml_code"
         @click="emit('toggle-mjml-view')"
       >
-        <EIcon name="Code" :size="16" />
+        <svg
+          class="ebb-toolbar__code-icon"
+          viewBox="0 0 44 32"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M15.5 5.5L9.5 11.5L15.5 17.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M28.5 5.5L34.5 11.5L28.5 17.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text
+            x="22"
+            y="27"
+            text-anchor="middle"
+            fill="currentColor"
+            class="ebb-toolbar__code-icon-text"
+          >MJML</text>
+        </svg>
       </button>
       <button
-        class="ebb-toolbar__action-btn"
+        class="ebb-toolbar__action-btn ebb-toolbar__action-btn--code"
         :class="{ 'ebb-toolbar__action-btn--active': activeView === 'html' }"
         :aria-pressed="activeView === 'html'"
         :title="labels.html_code"
         :aria-label="labels.html_code"
         @click="emit('toggle-html-view')"
       >
-        <EIcon name="FileCode2" :size="16" />
+        <svg
+          class="ebb-toolbar__code-icon"
+          viewBox="0 0 44 32"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M14 3.5H25L31 9.5V18H14V3.5Z"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M25 3.5V9.5H31"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M19 12L16.8 14L19 16"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M26 12L28.2 14L26 16"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text
+            x="22"
+            y="27"
+            text-anchor="middle"
+            fill="currentColor"
+            class="ebb-toolbar__code-icon-text"
+          >HTML</text>
+        </svg>
       </button>
       <div class="ebb-toolbar__divider"></div>
       <button
@@ -239,6 +309,22 @@ html[data-theme='dark'] .ebb-toolbar__title {
   color: #6b7280;
   cursor: pointer;
   transition: all 0.15s ease;
+}
+
+.ebb-toolbar__action-btn--code {
+  width: 44px;
+}
+
+.ebb-toolbar__code-icon {
+  width: 36px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.ebb-toolbar__code-icon-text {
+  font-family: var(--ee-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: 7px;
+  font-weight: 700;
 }
 
 .ebb-toolbar__action-btn:hover {
