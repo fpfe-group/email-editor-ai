@@ -94,16 +94,16 @@ function exportHtml() {
 </template>
 ```
 
-## 使用法语 Labels
+## 使用中文 Labels
 
 ```vue
 <script setup lang="ts">
-import { EmailEditor, FR_LABELS } from "@fpfe-group/email-editor-ai";
+import { EmailEditor, ZH_LABELS } from "@fpfe-group/email-editor-ai";
 import "@fpfe-group/email-editor-ai/style.css";
 </script>
 
 <template>
-  <EmailEditor :labels="FR_LABELS" />
+  <EmailEditor :labels="ZH_LABELS" />
 </template>
 ```
 

@@ -33,7 +33,7 @@ src/
   properties/         # 属性面板定义
   extensions/         # TipTap 扩展（merge tags）
   export/             # ESP 导出预设
-  i18n/               # 翻译文件
+  i18n/               # i18n 预设文件
   utils/              # 树结构工具
   types.ts            # 全部 TypeScript 类型
   labels.ts           # i18n label 接口与中文默认值
@@ -97,7 +97,7 @@ test: add ESP export preset tests
 1. 在 `src/blocks/` 下合适的文件中创建 factory 函数。
 2. 在 `src/labels.ts` 的 `EditorLabels` 中添加 label key。
 3. 在 `DEFAULT_LABELS` 中添加中文默认值。
-4. 在 `src/i18n/fr.ts` 中添加法语翻译。
+4. 确认 `src/i18n/zh.ts` 的 `ZH_LABELS` 会同步该默认值。
 5. 在 `src/blocks/block-definitions.ts` 中注册区块。
 
 ## 添加新的 ESP 预设
@@ -112,7 +112,7 @@ test: add ESP export preset tests
 
 1. 在 `src/labels.ts` 的 `EditorLabels` 接口中添加 key。
 2. 在 `DEFAULT_LABELS` 中添加中文默认值。
-3. 在 `src/i18n/fr.ts` 中添加法语翻译。
+3. 确认 `src/i18n/zh.ts` 的 `ZH_LABELS` 会同步该默认值。
 4. 在组件中使用 `resolveLabel('key')` 或 `labels.key`。
 
 ## 创建插件

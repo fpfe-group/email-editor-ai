@@ -69,7 +69,7 @@ const designJson = ref();
 - **ESP 导出**：为 Mailchimp、SendGrid、Brevo、AWS SES、Postmark、Resend 预格式化 HTML。
 - **深色模式预览**：在画布中模拟邮件客户端的深色模式渲染效果。
 - **插件系统**：可添加自定义区块、工具栏动作和侧边栏面板。
-- **i18n**：默认中文文案，并内置法语翻译，提供 175+ 个可翻译 label key。
+- **i18n**：默认中文文案，并提供 `ZH_LABELS` 预设和 175+ 个可翻译 label key。
 - **主题定制**：通过 `theme` prop 自定义颜色、字体和圆角。
 - **撤销/重做**：完整历史记录，支持 `Ctrl+Z` / `Ctrl+Shift+Z`。
 - **命令式 API**：通过 ref 调用 `getMjml()`、`getHtml()`、`selectNode()`、`deleteNode()` 等方法。
@@ -97,9 +97,13 @@ const designJson = ref();
 ## 主题与 i18n
 
 ```vue
+<script setup lang="ts">
+import { ZH_LABELS } from "@fpfe-group/email-editor-ai";
+</script>
+
 <EmailEditor
   :theme="{ primaryColor: '#7C3AED', borderRadius: '8px' }"
-  :labels="FR_LABELS"
+  :labels="ZH_LABELS"
 />
 ```
 

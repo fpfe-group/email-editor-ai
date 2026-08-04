@@ -11,13 +11,13 @@ import { EmailEditor } from "@fpfe-group/email-editor-ai";
 ## Labels 与 i18n
 
 ```ts
-import { DEFAULT_LABELS, FR_LABELS } from "@fpfe-group/email-editor-ai";
+import { DEFAULT_LABELS, ZH_LABELS } from "@fpfe-group/email-editor-ai";
 ```
 
 | 导出项           | 类型           | 说明                              |
 | ---------------- | -------------- | --------------------------------- |
 | `DEFAULT_LABELS` | `EditorLabels` | 默认中文 labels，包含 175+ 个 key |
-| `FR_LABELS`      | `EditorLabels` | 法语翻译                          |
+| `ZH_LABELS`      | `EditorLabels` | 中文 labels 预设                  |
 
 ## 序列化
 

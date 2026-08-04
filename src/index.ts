@@ -51,7 +51,7 @@ export {
 // ─── Labels / i18n ───
 export type { EditorLabels } from './labels'
 export { DEFAULT_LABELS } from './labels'
-export { FR_LABELS } from './i18n/fr'
+export { ZH_LABELS } from './i18n/zh'
 
 // ─── Serializer ───
 export { compileMjml } from './composables/useMjmlCompiler'
