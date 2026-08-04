@@ -12,6 +12,8 @@ export const FR_LABELS: EditorLabels = {
   code: 'Code',
   mjml_code: 'Code MJML',
   html_code: 'Code HTML',
+  copy_code: 'Copier le code',
+  code_copied: 'Copié',
   fullscreen: 'Plein écran',
   desktop: 'Bureau',
   tablet: 'Tablette',

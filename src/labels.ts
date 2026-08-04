@@ -12,6 +12,8 @@ export interface EditorLabels {
   code: string
   mjml_code: string
   html_code: string
+  copy_code: string
+  code_copied: string
   fullscreen: string
   desktop: string
   tablet: string
@@ -292,6 +294,8 @@ export const DEFAULT_LABELS: EditorLabels = {
   code: '源码',
   mjml_code: 'MJML 代码',
   html_code: 'HTML 代码',
+  copy_code: '复制代码',
+  code_copied: '已复制',
   fullscreen: '全屏',
   desktop: '桌面端',
   tablet: '平板端',

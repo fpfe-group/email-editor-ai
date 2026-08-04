@@ -34,9 +34,6 @@
     "url": "https://github.com/fpfe-group/email-editor-ai/issues"
   },
   "keywords": [
-    "email-editor-ai",
-    "fridayparts",
-    "fpfe",
     "vue",
     "vue3",
     "editor",
@@ -44,7 +41,10 @@
     "mjml",
     "drag-and-drop",
     "email-builder",
-    "newsletter"
+    "newsletter",
+    "email-editor-ai",
+    "fridayparts",
+    "fpfe"
   ],
   "peerDependencies": {
     "mjml-browser": "^4.15.0",
