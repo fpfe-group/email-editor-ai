@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { resolve } from 'path'
+import { version } from '../../package.json';
 
 export default defineConfig({
   title: '@fpfe-group/email-editor-ai',
@@ -26,7 +27,7 @@ export default defineConfig({
       { text: '指南', link: '/guide/getting-started' },
       { text: 'API', link: '/api/props' },
       {
-        text: 'v1.0.0',
+        text: `v${version}`,
         items: [
           { text: '更新日志', link: 'https://github.com/fpfe-team/email-editor-ai/releases' },
           { text: 'npm', link: 'https://www.npmjs.com/package/@fpfe-group/email-editor-ai' },

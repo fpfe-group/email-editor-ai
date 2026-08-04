@@ -3,7 +3,7 @@
  * InlineToolbar — Floating formatting toolbar for the TipTap inline text editor.
  * Positioned above the editing area, shows bold/italic/underline/link/color/align.
  */
-import { inject, ref, computed } from 'vue'
+import { inject, ref, computed, nextTick } from 'vue'
 import type { Editor } from '@tiptap/vue-3'
 import type { MergeTag } from '../../types'
 import EIcon from '../internal/EIcon.vue'
@@ -23,6 +23,7 @@ const showAiMenu = ref(false)
 const aiLoading = ref(false)
 const showAiPrompt = ref(false)
 const aiPromptText = ref('')
+const aiPromptInputRef = ref<HTMLInputElement | null>(null)
 
 const hasAi = computed(() => !!config?.aiProvider)
 
@@ -55,11 +56,19 @@ function toggleAiMenu() {
   showAiPrompt.value = false
 }
 
+function preserveEditorSelection(e: MouseEvent) {
+  const target = e.target as HTMLElement | null
+  if (target?.closest('input, textarea, select, [contenteditable="true"]')) return
+
+  e.preventDefault()
+}
+
 async function aiAction(action: 'improve' | 'shorten' | 'expand' | 'translate' | 'generate') {
   if (!props.editor || !config?.aiProvider || aiLoading.value) return
 
   if (action === 'generate') {
     showAiPrompt.value = true
+    nextTick(() => aiPromptInputRef.value?.focus())
     return
   }
 
@@ -183,7 +192,13 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
 </script>
 
 <template>
-  <div v-if="editor" class="ebb-inline-toolbar" role="toolbar" aria-label="Text formatting" @mousedown.prevent>
+  <div
+    v-if="editor"
+    class="ebb-inline-toolbar"
+    role="toolbar"
+    aria-label="Text formatting"
+    @mousedown="preserveEditorSelection"
+  >
     <button
       class="ebb-inline-toolbar__btn"
       :class="{ 'ebb-inline-toolbar__btn--active': isActive('bold') }"
@@ -301,7 +316,7 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
         >
           <EIcon name="Tags" :size="14" />
         </button>
-        <div v-if="showMergeMenu" class="ebb-merge-menu" role="menu" @mousedown.prevent>
+        <div v-if="showMergeMenu" class="ebb-merge-menu" role="menu" @mousedown="preserveEditorSelection">
           <template v-for="group in mergeTagsByCategory" :key="group.category">
             <div v-if="group.category" class="ebb-merge-menu__category">{{ group.category }}</div>
             <button
@@ -333,7 +348,7 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
         >
           <EIcon :name="aiLoading ? 'Loader2' : 'Sparkles'" :size="14" />
         </button>
-        <div v-if="showAiMenu && !aiLoading" class="ebb-ai-menu" role="menu" @mousedown.prevent>
+        <div v-if="showAiMenu && !aiLoading" class="ebb-ai-menu" role="menu" @mousedown="preserveEditorSelection">
           <button class="ebb-ai-menu__item" role="menuitem" @click="aiAction('generate')">
             <EIcon name="Sparkles" :size="12" />
             {{ resolveLabel('ai_generate') }}
@@ -357,6 +372,7 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
           <!-- Prompt input -->
           <div v-if="showAiPrompt" class="ebb-ai-menu__prompt">
             <input
+              ref="aiPromptInputRef"
               v-model="aiPromptText"
               class="ebb-ai-menu__prompt-input"
               :placeholder="resolveLabel('ai_prompt_placeholder')"

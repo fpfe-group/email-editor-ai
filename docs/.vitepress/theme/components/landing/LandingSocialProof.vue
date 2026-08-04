@@ -40,7 +40,7 @@
           </svg>
           <span class="proof__badge-name" style="color: #cb3837">npm</span>
           <div class="proof__badge-sep" />
-          <span class="proof__badge-val">v1.0.0</span>
+          <span class="proof__badge-val">v{{ version }}</span>
         </div>
         <div class="proof__badge">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#1A1A1A">
@@ -166,7 +166,9 @@
     </div>
   </section>
 </template>
-
+<script setup lang="ts">
+import { version } from "../../../../../package.json";
+</script>
 <style scoped>
 .proof {
   background: var(--proof-bg, #f9fafb);
