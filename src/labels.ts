@@ -241,6 +241,7 @@ export interface EditorLabels {
   ai_prompt_placeholder: string
   ai_loading: string
   ai_error: string
+  ai_followup_hint: string
 
   // ─── AI Chat ───
   ai_chat: string
@@ -523,6 +524,7 @@ export const DEFAULT_LABELS: EditorLabels = {
   ai_prompt_placeholder: '描述你想要的内容...',
   ai_loading: 'AI 思考中...',
   ai_error: 'AI 生成失败',
+  ai_followup_hint: 'AI 需要更多信息，请补充你的要求。',
 
   // ─── AI Chat ───
   ai_chat: 'AI',

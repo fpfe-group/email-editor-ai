@@ -24,6 +24,7 @@ const aiLoading = ref(false)
 const showAiPrompt = ref(false)
 const aiPromptText = ref('')
 const aiPromptInputRef = ref<HTMLInputElement | null>(null)
+const aiFollowupMessage = ref('')
 
 const hasAi = computed(() => !!config?.aiProvider)
 
@@ -54,6 +55,7 @@ function toggleAiMenu() {
   showAiMenu.value = !showAiMenu.value
   showMergeMenu.value = false
   showAiPrompt.value = false
+  aiFollowupMessage.value = ''
 }
 
 function preserveEditorSelection(e: MouseEvent) {
@@ -68,6 +70,7 @@ async function aiAction(action: 'improve' | 'shorten' | 'expand' | 'translate' |
 
   if (action === 'generate') {
     showAiPrompt.value = true
+    aiFollowupMessage.value = ''
     nextTick(() => aiPromptInputRef.value?.focus())
     return
   }
@@ -98,12 +101,13 @@ async function aiAction(action: 'improve' | 'shorten' | 'expand' | 'translate' |
       result = await config.aiProvider.generateText(instructions[action] + '\n\nText: ' + selectedText)
     }
 
-    if (result && props.editor) {
+    const cleanedResult = sanitizeAiInlineResult(result)
+    if (cleanedResult && props.editor) {
       const { from, to } = props.editor.state.selection
       if (from !== to) {
-        props.editor.chain().focus().deleteRange({ from, to }).insertContent(result).run()
+        props.editor.chain().focus().deleteRange({ from, to }).insertContent(cleanedResult).run()
       } else {
-        props.editor.chain().focus().setContent(result).run()
+        props.editor.chain().focus().setContent(cleanedResult).run()
       }
     }
   } catch {
@@ -117,21 +121,70 @@ async function submitAiPrompt() {
   if (!props.editor || !config?.aiProvider || !aiPromptText.value.trim() || aiLoading.value) return
 
   aiLoading.value = true
-  showAiPrompt.value = false
-  showAiMenu.value = false
+  aiFollowupMessage.value = ''
 
   try {
     const context = props.editor.getText()
-    const result = await config.aiProvider.generateText(aiPromptText.value, context)
-    if (result && props.editor) {
-      props.editor.chain().focus().insertContent(result).run()
+    const result = await config.aiProvider.generateText(
+      buildInlinePrompt(aiPromptText.value, context),
+      context,
+    )
+    const cleanedResult = sanitizeAiInlineResult(result)
+    if (!cleanedResult) return
+
+    if (isAiFollowup(cleanedResult)) {
+      aiFollowupMessage.value = cleanedResult
+      showAiPrompt.value = true
+      showAiMenu.value = true
+      nextTick(() => aiPromptInputRef.value?.focus())
+      return
+    }
+
+    if (props.editor) {
+      props.editor.chain().focus().insertContent(cleanedResult).run()
+      showAiPrompt.value = false
+      showAiMenu.value = false
+      aiPromptText.value = ''
     }
   } catch {
-    // Silently fail
+    aiFollowupMessage.value = resolveLabel('ai_error')
+    showAiPrompt.value = true
+    showAiMenu.value = true
+    nextTick(() => aiPromptInputRef.value?.focus())
   } finally {
     aiLoading.value = false
-    aiPromptText.value = ''
   }
+}
+
+function buildInlinePrompt(userPrompt: string, context: string): string {
+  return [
+    'You are editing a small piece of email copy inline.',
+    'Return only the final replacement or insertion text.',
+    'Do not include explanations, Markdown, alternatives, labels, or <think> blocks.',
+    'If the user asks to translate, rewrite, shorten, expand, or optimize, use the current text as the source.',
+    '',
+    'Current text:',
+    context || '(empty)',
+    '',
+    'User request:',
+    userPrompt,
+  ].join('\n')
+}
+
+function sanitizeAiInlineResult(value: string | undefined): string {
+  if (!value) return ''
+
+  return value
+    .replace(/<think>[\s\S]*?<\/think>/gi, '')
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/^```[^\n]*\n?|\n?```$/g, ''))
+    .trim()
+}
+
+function isAiFollowup(value: string): boolean {
+  const normalized = value.replace(/\s+/g, ' ').trim()
+  if (!normalized) return false
+
+  return /请.{0,12}(提供|输入|告诉|补充)|需要.{0,12}(更多|具体|原始)|what .*copy|please provide|could you provide|need more/i.test(normalized)
 }
 
 function resolveLabel(key: string): string {
@@ -369,6 +422,10 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
             <EIcon name="Languages" :size="12" />
             {{ resolveLabel('ai_translate') }}
           </button>
+          <div v-if="aiFollowupMessage" class="ebb-ai-menu__followup" role="status">
+            <div class="ebb-ai-menu__followup-title">{{ resolveLabel('ai_followup_hint') }}</div>
+            <div class="ebb-ai-menu__followup-text">{{ aiFollowupMessage }}</div>
+          </div>
           <!-- Prompt input -->
           <div v-if="showAiPrompt" class="ebb-ai-menu__prompt">
             <input
@@ -585,6 +642,30 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
   padding: 4px;
   border-top: 1px solid #374151;
   margin-top: 4px;
+}
+
+.ebb-ai-menu__followup {
+  max-width: 240px;
+  margin: 4px;
+  padding: 8px;
+  border-top: 1px solid #374151;
+  color: #d1d5db;
+}
+
+.ebb-ai-menu__followup-title {
+  margin-bottom: 4px;
+  color: #f9fafb;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ebb-ai-menu__followup-text {
+  max-height: 96px;
+  overflow-y: auto;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 .ebb-ai-menu__prompt-input {
