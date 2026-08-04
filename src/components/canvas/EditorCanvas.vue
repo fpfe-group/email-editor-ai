@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, watch, ref, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue'
+import { inject, watch, ref, onMounted, onBeforeUnmount, defineAsyncComponent, nextTick } from 'vue'
 import { EMAIL_DOCUMENT_KEY, EMAIL_SELECTION_KEY, EMAIL_DRAG_DROP_KEY } from '../../injection-keys'
 import { EMAIL_LABELS_KEY, DEFAULT_LABELS } from '../../labels'
 import type { IframeMessage, DropPosition, EmailNode } from '../../types'
@@ -50,9 +50,18 @@ interface HitTestResult {
 
 // ─── Iframe content management ───
 
+function parseCompiledHtml(html: string): { headHtml: string; bodyHtml: string } {
+  const parsed = new DOMParser().parseFromString(html, 'text/html')
+  return {
+    headHtml: parsed.head.innerHTML,
+    bodyHtml: parsed.body.innerHTML || html,
+  }
+}
+
 function updateIframe() {
   const iframe = iframeRef.value
   if (!iframe || !doc.compiledHtml.value) return
+  const { headHtml, bodyHtml } = parseCompiledHtml(doc.compiledHtml.value)
 
   const darkModeStyles = props.darkPreview ? `
     /* Dark mode preview — simulates email client dark mode */
@@ -87,6 +96,7 @@ function updateIframe() {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  ${headHtml}
   <style>
     body { margin: 0; padding: 0; }
     [data-node-id] { cursor: pointer; transition: outline 0.1s ease; }
@@ -97,9 +107,11 @@ function updateIframe() {
   </style>
 </head>
 <body>
-  ${doc.compiledHtml.value}
+  <div id="ebb-email-root">${bodyHtml}</div>
   <script>
   (function() {
+    var emailRoot = document.getElementById('ebb-email-root');
+
     // Annotate nodes: find elements with ebb-node-* class and set data-node-id
     // Then propagate data-node-id DOWN into child elements (table, tbody, tr, td, div)
     // so that elementFromPoint on empty areas inside columns resolves correctly.
@@ -262,11 +274,16 @@ function updateIframe() {
 
     // Report content height to parent for auto-sizing
     function reportHeight() {
-      var h = document.documentElement.scrollHeight || document.body.scrollHeight;
+      var h = emailRoot
+        ? Math.ceil(emailRoot.getBoundingClientRect().height)
+        : (document.body.scrollHeight || document.documentElement.scrollHeight);
       window.parent.postMessage({ type: 'ebb:height', height: h }, '*');
     }
     reportHeight();
     new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+    if (window.ResizeObserver && emailRoot) {
+      new ResizeObserver(reportHeight).observe(emailRoot);
+    }
     window.addEventListener('resize', reportHeight);
 
     window.parent.postMessage({ type: 'ebb:ready' }, '*');
@@ -276,6 +293,20 @@ function updateIframe() {
 </html>`
 
   iframe.srcdoc = html
+}
+
+function measureIframeContentHeight(): number | null {
+  const emailRoot = iframeRef.value?.contentDocument?.getElementById('ebb-email-root')
+  if (!emailRoot) return null
+
+  return Math.ceil(emailRoot.getBoundingClientRect().height)
+}
+
+function refreshIframeHeight() {
+  const height = measureIframeContentHeight()
+  if (height) {
+    iframeHeight.value = height
+  }
 }
 
 // ─── postMessage handler ───
@@ -655,6 +686,17 @@ watch(() => doc.compiledHtml.value, () => {
 
 watch(() => props.darkPreview, () => {
   updateIframe()
+})
+
+watch(() => props.canvasWidth, () => {
+  iframeHeight.value = null
+  selectedRect.value = null
+  hoveredRect.value = null
+  dropIndicatorRect.value = null
+  nextTick(() => {
+    refreshIframeHeight()
+    window.setTimeout(refreshIframeHeight, 350)
+  })
 })
 
 onMounted(() => {
