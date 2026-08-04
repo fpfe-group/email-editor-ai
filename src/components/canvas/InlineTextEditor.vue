@@ -29,11 +29,14 @@ const emit = defineEmits<{
 const toolbarRef = ref<HTMLDivElement | null>(null)
 const config = inject(EMAIL_EDITOR_CONFIG_KEY, undefined)
 const mergeTags = computed(() => config?.mergeTags ?? [])
+const isDirty = ref(false)
 
 // markRaw prevents Vue from deeply tracking TipTap extension internals
 const editorExtensions = markRaw([
   StarterKit.configure({
     heading: { levels: [1, 2, 3, 4] },
+    link: false,
+    underline: false,
   }),
   Link.configure({ openOnClick: false }),
   TextStyle,
@@ -52,7 +55,7 @@ const editor = useEditor({
     },
   },
   onUpdate: () => {
-    // Live update (optional — we commit on close)
+    isDirty.value = true
   },
 })
 
@@ -65,6 +68,8 @@ watch(editor, (ed) => {
 
 function save() {
   if (!editor.value) return
+  if (!isDirty.value) return
+
   emit('save', editor.value.getHTML())
 }
 

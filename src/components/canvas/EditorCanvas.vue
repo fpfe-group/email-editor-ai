@@ -64,31 +64,95 @@ function updateIframe() {
   const { headHtml, bodyHtml } = parseCompiledHtml(doc.compiledHtml.value)
 
   const darkModeStyles = props.darkPreview ? `
-    /* Dark mode preview — simulates email client dark mode */
-    body { background-color: #1a1a2e !important; color: #e0e0e0 !important; }
-    table { background-color: transparent !important; }
-    div[style*="background"] { filter: brightness(0.3) saturate(1.2); }
+    /* Dark mode preview — simulate email client color remapping without dimming media. */
+    body,
+    #ebb-email-root {
+      background-color: #111827 !important;
+      color: #e5e7eb !important;
+    }
+
     td[style*="background-color:#ffffff"], td[style*="background-color: #ffffff"],
     td[style*="background-color:#fff"], td[style*="background-color: #fff"],
+    td[style*="background-color: rgb(255, 255, 255)"],
+    table[style*="background-color:#ffffff"], table[style*="background-color: #ffffff"],
+    table[style*="background-color:#fff"], table[style*="background-color: #fff"],
+    table[style*="background-color: rgb(255, 255, 255)"],
     div[style*="background-color:#ffffff"], div[style*="background-color: #ffffff"],
+    div[style*="background-color:#fff"], div[style*="background-color: #fff"],
+    div[style*="background-color: rgb(255, 255, 255)"],
+    td[style*="background:#ffffff"], td[style*="background: #ffffff"],
+    td[style*="background:#fff"], td[style*="background: #fff"],
+    table[style*="background:#ffffff"], table[style*="background: #ffffff"],
+    table[style*="background:#fff"], table[style*="background: #fff"],
     div[style*="background:#ffffff"], div[style*="background: #ffffff"],
     div[style*="background:#fff"], div[style*="background: #fff"] {
-      background-color: #1e1e2f !important;
+      background-color: #1f2937 !important;
     }
-    td[style*="background-color:#f"], div[style*="background-color:#f"],
-    td[style*="background:#f"], div[style*="background:#f"] {
-      background-color: #2a2a3d !important;
+
+    td[style*="background-color:#f9fafb"], td[style*="background-color: #f9fafb"],
+    td[style*="background-color:#f8fafc"], td[style*="background-color: #f8fafc"],
+    td[style*="background-color:#f7f7f7"], td[style*="background-color: #f7f7f7"],
+    td[style*="background-color:#f3f4f6"], td[style*="background-color: #f3f4f6"],
+    td[style*="background-color:#f0f0f0"], td[style*="background-color: #f0f0f0"],
+    table[style*="background-color:#f9fafb"], table[style*="background-color: #f9fafb"],
+    table[style*="background-color:#f8fafc"], table[style*="background-color: #f8fafc"],
+    table[style*="background-color:#f7f7f7"], table[style*="background-color: #f7f7f7"],
+    table[style*="background-color:#f3f4f6"], table[style*="background-color: #f3f4f6"],
+    table[style*="background-color:#f0f0f0"], table[style*="background-color: #f0f0f0"],
+    div[style*="background-color:#f9fafb"], div[style*="background-color: #f9fafb"],
+    div[style*="background-color:#f8fafc"], div[style*="background-color: #f8fafc"],
+    div[style*="background-color:#f7f7f7"], div[style*="background-color: #f7f7f7"],
+    div[style*="background-color:#f3f4f6"], div[style*="background-color: #f3f4f6"],
+    div[style*="background-color:#f0f0f0"], div[style*="background-color: #f0f0f0"] {
+      background-color: #273244 !important;
     }
+
     td[style*="color:#000"], td[style*="color: #000"],
-    td[style*="color:#1"], td[style*="color:#2"], td[style*="color:#3"],
+    td[style*="color:#111827"], td[style*="color: #111827"],
+    td[style*="color:#1f2937"], td[style*="color: #1f2937"],
+    td[style*="color:#374151"], td[style*="color: #374151"],
+    td[style*="color:#4b5563"], td[style*="color: #4b5563"],
+    td[style*="color:#333"], td[style*="color: #333"],
+    td[style*="color:#333333"], td[style*="color: #333333"],
+    td[style*="color: rgb(0, 0, 0)"],
     div[style*="color:#000"], div[style*="color: #000"],
+    div[style*="color:#111827"], div[style*="color: #111827"],
+    div[style*="color:#1f2937"], div[style*="color: #1f2937"],
+    div[style*="color:#374151"], div[style*="color: #374151"],
+    div[style*="color:#4b5563"], div[style*="color: #4b5563"],
+    div[style*="color:#333"], div[style*="color: #333"],
+    div[style*="color:#333333"], div[style*="color: #333333"],
+    div[style*="color: rgb(0, 0, 0)"],
     p[style*="color:#000"], p[style*="color: #000"],
+    p[style*="color:#111827"], p[style*="color: #111827"],
+    p[style*="color:#1f2937"], p[style*="color: #1f2937"],
+    p[style*="color:#374151"], p[style*="color: #374151"],
+    p[style*="color:#4b5563"], p[style*="color: #4b5563"],
     span[style*="color:#000"], span[style*="color: #000"],
-    h1, h2, h3, h4, h5, h6, p {
-      color: #e0e0e0 !important;
+    span[style*="color:#111827"], span[style*="color: #111827"],
+    span[style*="color:#1f2937"], span[style*="color: #1f2937"],
+    span[style*="color:#374151"], span[style*="color: #374151"],
+    span[style*="color:#4b5563"], span[style*="color: #4b5563"] {
+      color: #e5e7eb !important;
     }
-    a { color: #64b5f6 !important; }
-    img { opacity: 0.9; }
+
+    td[style*="color:#6b7280"], td[style*="color: #6b7280"],
+    td[style*="color:#64748b"], td[style*="color: #64748b"],
+    td[style*="color:#94a3b8"], td[style*="color: #94a3b8"],
+    div[style*="color:#6b7280"], div[style*="color: #6b7280"],
+    div[style*="color:#64748b"], div[style*="color: #64748b"],
+    div[style*="color:#94a3b8"], div[style*="color: #94a3b8"],
+    p[style*="color:#6b7280"], p[style*="color: #6b7280"],
+    p[style*="color:#64748b"], p[style*="color: #64748b"],
+    p[style*="color:#94a3b8"], p[style*="color: #94a3b8"],
+    span[style*="color:#6b7280"], span[style*="color: #6b7280"],
+    span[style*="color:#64748b"], span[style*="color: #64748b"],
+    span[style*="color:#94a3b8"], span[style*="color: #94a3b8"] {
+      color: #cbd5e1 !important;
+    }
+
+    a { color: #93c5fd !important; }
+    img { opacity: 1 !important; }
   ` : ''
 
   const html = `<!DOCTYPE html>
@@ -716,6 +780,7 @@ onBeforeUnmount(() => {
     ref="canvasRef"
     id="ebb-canvas-region"
     class="ebb-canvas"
+    :class="{ 'ebb-canvas--inline-editing': !!inlineEditRect }"
     role="region"
     aria-label="Email canvas"
   >
@@ -726,7 +791,11 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- Iframe wrapper: iframe + overlays share the same coordinate space -->
-    <div class="ebb-canvas__iframe-wrapper" :style="{ width: canvasWidth + 'px', height: iframeHeight ? iframeHeight + 'px' : undefined }">
+    <div
+      class="ebb-canvas__iframe-wrapper"
+      :class="{ 'ebb-canvas__iframe-wrapper--editing': !!inlineEditRect }"
+      :style="{ width: canvasWidth + 'px', height: iframeHeight ? iframeHeight + 'px' : undefined }"
+    >
       <iframe
         ref="iframeRef"
         class="ebb-canvas__iframe"
@@ -780,6 +849,10 @@ onBeforeUnmount(() => {
   padding: 24px 0;
 }
 
+.ebb-canvas--inline-editing {
+  padding-bottom: calc(24px + 260px);
+}
+
 html[data-theme='dark'] .ebb-canvas {
   background-color: #1a1f2e;
   background-image:
@@ -829,6 +902,10 @@ html[data-theme='dark'] .ebb-canvas__loading {
   overflow: hidden;
 }
 
+.ebb-canvas__iframe-wrapper--editing {
+  overflow: visible;
+}
+
 html[data-theme='dark'] .ebb-canvas__iframe-wrapper {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.15);
 }
@@ -839,6 +916,7 @@ html[data-theme='dark'] .ebb-canvas__iframe-wrapper {
   border: none;
   background: #ffffff;
   display: block;
+  border-radius: inherit;
 }
 
 .ebb-canvas__drag-overlay {
