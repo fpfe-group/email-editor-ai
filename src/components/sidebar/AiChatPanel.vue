@@ -221,6 +221,14 @@ watch(() => chat.lastGeneratedTemplate.value, (val) => {
         </div>
       </template>
 
+      <!-- Live streamed response -->
+      <div
+        v-if="chat.isGenerating.value && chat.streamBuffer.value"
+        class="ebb-ai-chat__msg ebb-ai-chat__msg--assistant ebb-ai-chat__msg--streaming"
+      >
+        <span class="ebb-ai-chat__msg-text">{{ chat.streamBuffer.value }}</span>
+      </div>
+
       <!-- Apply/discard bar inline in chat when preview is available -->
       <div v-if="hasPreview && activeTab === 'chat'" class="ebb-ai-chat__actions">
         <button class="ebb-ai-chat__action-apply" @click="chat.applyTemplate()">
@@ -235,7 +243,7 @@ watch(() => chat.lastGeneratedTemplate.value, (val) => {
       </div>
 
       <!-- Generating indicator -->
-      <div v-if="chat.isGenerating.value" class="ebb-ai-chat__thinking">
+      <div v-if="chat.isGenerating.value && !chat.streamBuffer.value" class="ebb-ai-chat__thinking">
         <span class="ebb-ai-chat__spinner"></span>
         <span>{{ labels.ai_chat_thinking }}</span>
       </div>
@@ -537,6 +545,11 @@ html[data-theme='dark'] .ebb-ai-chat__action-discard:hover {
   color: var(--ee-text-secondary, #6b7280);
   border-left-color: var(--ee-border, #e5e7eb);
   background: none;
+}
+
+.ebb-ai-chat__msg--streaming {
+  color: var(--ee-text-primary, #1f2937);
+  border-left-color: var(--ee-primary);
 }
 
 .ebb-ai-chat__msg-text {
