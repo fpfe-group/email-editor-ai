@@ -1,5 +1,7 @@
 # Email Editor And AI
 
+A Vue 3 MJML email editor with AI generation, drag-and-drop blocks, MJML source editing, HTML code preview, responsive email builder templates, merge tags, plugins, and ESP-ready newsletter HTML export.
+
 <p align="center">
   <a href="https://www.npmjs.com/package/@fpfe-group/email-editor-ai"><img src="https://img.shields.io/npm/v/@fpfe-group/email-editor-ai.svg?style=flat-square" alt="npm version" /></a>
   <a href="https://github.com/fpfe-group/email-editor-ai.git"><img src="https://img.shields.io/badge/CI-internal-lightgrey?style=flat-square" alt="CI" /></a>
