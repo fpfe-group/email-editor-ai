@@ -1,6 +1,29 @@
 # 事件参考
 
-事件通过命令式 API（`editor.value.on()`）访问，不使用 Vue 的 `@event` 语法。
+编辑器事件分为两类：
+
+- 组件级 Vue 事件：通过 `@event` 语法监听，例如 `@send-test`。
+- 编辑器内部事件：通过命令式 API（`editor.value.on()`）访问。
+
+## Vue 事件
+
+| 事件 | 参数 | 触发时机 |
+| ---- | ---- | -------- |
+| `send-test` | `string` | 点击顶部工具栏「发送测试」时触发，参数为当前编译后的 HTML |
+
+```vue
+<EmailEditor @send-test="sendTest" />
+```
+
+```ts
+async function sendTest(html: string) {
+  await fetch("/api/email/send-test", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html }),
+  });
+}
+```
 
 ## 事件映射
 

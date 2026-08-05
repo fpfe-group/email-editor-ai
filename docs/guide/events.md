@@ -2,9 +2,34 @@
 
 编辑器会发出类型化事件，用于实时感知用户操作。
 
+## Vue 事件
+
+### `send-test`
+
+监听 `send-test` 后，顶部工具栏会显示「发送测试」入口。用户点击时，事件参数是当前编译后的 HTML 字符串。
+
+```vue
+<script setup lang="ts">
+import { EmailEditor } from "@fpfe-group/email-editor-ai";
+import "@fpfe-group/email-editor-ai/style.css";
+
+async function sendTest(html: string) {
+  await fetch("/api/email/send-test", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html }),
+  });
+}
+</script>
+
+<template>
+  <EmailEditor @send-test="sendTest" />
+</template>
+```
+
 ## 订阅事件
 
-通过 template ref 使用命令式 API：
+内部编辑器事件通过 template ref 使用命令式 API：
 
 ```vue
 <script setup>

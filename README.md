@@ -43,6 +43,14 @@ import "@fpfe-group/email-editor-ai/style.css";
 const mjml = ref("");
 const html = ref("");
 const designJson = ref();
+
+async function sendTest(html) {
+  await fetch("/api/email/send-test", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html }),
+  });
+}
 </script>
 
 <template>
@@ -52,6 +60,7 @@ const designJson = ref();
     :design-json="designJson"
     @update:compiled-html="html = $event"
     @update:design-json="designJson = $event"
+    @send-test="sendTest"
   />
 </template>
 ```
@@ -63,6 +72,7 @@ const designJson = ref();
 - **43 个区块**：包含布局、内容和 30 个现成组合区块（Hero、Pricing、Testimonial、FAQ 等）。
 - **行内编辑**：双击文本即可通过 TipTap 编辑，支持加粗、斜体、链接和颜色。
 - **AI 生成**：用自然语言描述邮件，即可生成可用于生产的模板（BYOAI）。
+- **发送测试**：通过 `@send-test` 接入业务接口，在顶部工具栏发送当前邮件测试。
 - **Merge Tags**：插入 `{{first_name}}` 这类动态变量，并以可视化标签展示。
 - **条件内容**：基于 Merge Tag 值控制区块显示/隐藏。
 - **22 个入门模板**：欢迎邮件、Newsletter、电商、弃购挽回等场景开箱即用。

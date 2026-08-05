@@ -26,6 +26,14 @@ const editorRef = ref();
 const mjml = ref("");
 const html = ref("");
 const designJson = ref();
+
+async function sendTest(html) {
+  await fetch("/api/email/send-test", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html }),
+  });
+}
 </script>
 
 <template>
@@ -36,6 +44,7 @@ const designJson = ref();
       :design-json="designJson"
       @update:compiled-html="html = $event"
       @update:design-json="designJson = $event"
+      @send-test="sendTest"
     />
   </div>
 </template>
@@ -44,6 +53,8 @@ const designJson = ref();
 ::: tip
 编辑器会填满父容器，请确保父容器有明确高度，例如 `height: 100vh`。
 :::
+
+监听 `send-test` 事件后，顶部工具栏会显示「发送测试」入口；不监听时默认隐藏。
 
 ## 你会得到什么
 

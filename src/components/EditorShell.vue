@@ -16,6 +16,11 @@ const props = defineProps<{
   label?: string
   required?: boolean
   theme?: Partial<ThemeConfig>
+  canSendTest?: boolean
+}>()
+
+const emit = defineEmits<{
+  'send-test': [html: string]
 }>()
 
 const themeStyles = computed(() => {
@@ -113,10 +118,12 @@ function toggleDarkPreview() {
         :active-view="activeView"
         :active-device-index="activeDeviceIndex"
         :is-dark-preview="isDarkPreview"
+        :can-send-test="canSendTest"
         @toggle-fullscreen="toggleFullscreen"
         @toggle-mjml-view="toggleMjmlView"
         @toggle-html-view="toggleHtmlView"
         @toggle-dark-preview="toggleDarkPreview"
+        @send-test="emit('send-test', $event)"
         @update:active-device-index="activeDeviceIndex = $event"
       />
 

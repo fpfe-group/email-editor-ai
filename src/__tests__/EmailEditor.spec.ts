@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import EmailEditor from '../EmailEditor.vue'
+import EditorShell from '../components/EditorShell.vue'
 import type { Plugin, PluginContext } from '../types'
 
 // Mock mjml-browser
@@ -167,5 +168,31 @@ describe('EmailEditor.vue', () => {
     // We can't easily check the provided value directly from wrapper,
     // but we can verify the component accepts the prop without error
     expect(wrapper.props().labels).toEqual(customLabels)
+  })
+
+  it('enables the send test toolbar entry only when the Vue event is listened to', async () => {
+    const wrapperWithoutListener = shallowMount(EmailEditor, {
+      props: {
+        modelValue: '',
+      },
+    })
+
+    expect(wrapperWithoutListener.findComponent(EditorShell).props('canSendTest')).toBe(false)
+
+    const onSendTest = vi.fn()
+    const wrapperWithListener = shallowMount(EmailEditor, {
+      props: {
+        modelValue: '',
+        onSendTest,
+      },
+    })
+    const shell = wrapperWithListener.findComponent(EditorShell)
+
+    expect(shell.props('canSendTest')).toBe(true)
+
+    shell.vm.$emit('send-test', '<html>test</html>')
+    await wrapperWithListener.vm.$nextTick()
+
+    expect(onSendTest).toHaveBeenCalledWith('<html>test</html>')
   })
 })

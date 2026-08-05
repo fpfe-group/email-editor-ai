@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 import EIcon from '../internal/EIcon.vue'
 import { DEVICE_PRESETS } from '../../constants'
 import { EMAIL_DOCUMENT_KEY } from '../../injection-keys'
@@ -10,6 +10,7 @@ const props = defineProps<{
   activeView: 'visual' | 'mjml' | 'html'
   activeDeviceIndex: number
   isDarkPreview: boolean
+  canSendTest?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -17,11 +18,13 @@ const emit = defineEmits<{
   'toggle-mjml-view': []
   'toggle-html-view': []
   'toggle-dark-preview': []
+  'send-test': [html: string]
   'update:activeDeviceIndex': [index: number]
 }>()
 
 const labels = inject(EMAIL_LABELS_KEY, DEFAULT_LABELS)
 const doc = inject(EMAIL_DOCUMENT_KEY)!
+const isSendingTest = ref(false)
 
 function setDevice(index: number) {
   emit('update:activeDeviceIndex', index)
@@ -35,6 +38,17 @@ function undo() {
 function redo() {
   doc.history.redo()
   doc.triggerEmit()
+}
+
+async function sendTestEmail() {
+  if (!props.canSendTest || isSendingTest.value) return
+  isSendingTest.value = true
+  try {
+    await doc.triggerEmit()
+    emit('send-test', doc.compiledHtml.value)
+  } finally {
+    isSendingTest.value = false
+  }
 }
 </script>
 
@@ -90,6 +104,20 @@ function redo() {
       </button>
       <div class="ebb-toolbar__divider"></div>
       <button
+        v-if="canSendTest"
+        class="ebb-toolbar__action-btn ebb-toolbar__send-test-btn"
+        :class="{ 'ebb-toolbar__action-btn--disabled': isSendingTest }"
+        :disabled="isSendingTest"
+        :aria-disabled="isSendingTest"
+        :title="labels.send_test"
+        :aria-label="labels.send_test"
+        @click="sendTestEmail"
+      >
+        <EIcon :name="isSendingTest ? 'LoaderCircle' : 'Send'" :size="14" />
+        <span class="ebb-toolbar__send-test-label">{{ labels.send_test }}</span>
+      </button>
+      <div v-if="canSendTest" class="ebb-toolbar__divider"></div>
+      <button
         class="ebb-toolbar__action-btn"
         :class="{ 'ebb-toolbar__action-btn--active': isDarkPreview }"
         :aria-pressed="isDarkPreview"
@@ -99,6 +127,7 @@ function redo() {
       >
         <EIcon :name="isDarkPreview ? 'Sun' : 'Moon'" :size="16" />
       </button>
+      <div class="ebb-toolbar__divider"></div>
       <button
         class="ebb-toolbar__action-btn ebb-toolbar__action-btn--code"
         :class="{ 'ebb-toolbar__action-btn--active': activeView === 'mjml' }"
@@ -315,6 +344,24 @@ html[data-theme='dark'] .ebb-toolbar__title {
   width: 44px;
 }
 
+.ebb-toolbar__send-test-btn {
+  width: auto;
+  min-width: 82px;
+  padding: 0 10px;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ebb-toolbar__send-test-label {
+  line-height: 1;
+}
+
+.ebb-toolbar__send-test-btn .lucide-loader-circle {
+  animation: ebb-toolbar-spin 0.8s linear infinite;
+}
+
 .ebb-toolbar__code-icon {
   width: 36px;
   height: 28px;
@@ -357,5 +404,11 @@ html[data-theme='dark'] .ebb-toolbar__action-btn:hover {
 
 html[data-theme='dark'] .ebb-toolbar__divider {
   background: #374151;
+}
+
+@keyframes ebb-toolbar-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -8,6 +8,7 @@ export interface EditorLabels {
   search_blocks: string
   undo: string
   redo: string
+  send_test: string
   editor_title: string
   code: string
   mjml_code: string
@@ -297,6 +298,7 @@ export const DEFAULT_LABELS: EditorLabels = {
   search_blocks: '搜索区块...',
   undo: '撤销',
   redo: '重做',
+  send_test: '发送测试',
   editor_title: '邮件编辑器',
   code: '源码',
   mjml_code: 'MJML 代码',

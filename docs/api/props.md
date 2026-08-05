@@ -94,3 +94,22 @@ MJML 源码字符串。文档变化时会自动更新。
 | `update:modelValue` | `string` | MJML 源码更新 |
 | `update:compiled-html` | `string` | 编译后的 HTML 更新 |
 | `update:design-json` | `EmailDesignJson` | 设计 JSON 更新 |
+| `send-test` | `string` | 点击顶部工具栏「发送测试」时触发，参数为当前编译后的 HTML |
+
+## `send-test`
+
+发送测试邮件入口。默认不显示按钮；只有监听 `send-test` 事件后，顶部工具栏才会显示「发送测试」按钮。
+
+```vue
+<EmailEditor @send-test="sendTest" />
+```
+
+```ts
+async function sendTest(html: string) {
+  await fetch("/api/email/send-test", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ html }),
+  });
+}
+```

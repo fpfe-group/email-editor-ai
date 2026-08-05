@@ -5,7 +5,7 @@
  * Composes all composables, provides them to descendants, and handles
  * the external props/emits contract matching the old GrapesJS editor.
  */
-import { provide, watch, onMounted, toRef, computed } from 'vue'
+import { provide, watch, onMounted, toRef, computed, getCurrentInstance } from 'vue'
 import type { EmailDesignJson, ThemeConfig, Plugin, EmailEditorAPI, EmailNode, NodeId, ImageUploadHandler, BrowseAssetsHandler, MergeTag, AiProvider } from './types'
 import { isNewEditorJson } from './types'
 import { useEmailDocument } from './composables/useEmailDocument'
@@ -60,7 +60,14 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
   'update:compiledHtml': [html: string]
   'update:designJson': [data: Record<string, unknown>]
+  'send-test': [html: string]
 }>()
+
+const instance = getCurrentInstance()
+const canSendTest = computed(() => {
+  const vnodeProps = instance?.vnode.props as Record<string, unknown> | null | undefined
+  return !!vnodeProps?.onSendTest
+})
 
 // ─── Event System & Plugin Registry ───
 
@@ -206,5 +213,11 @@ defineExpose(api)
 </script>
 
 <template>
-  <EditorShell :label="label" :required="required" :theme="theme" />
+  <EditorShell
+    :label="label"
+    :required="required"
+    :theme="theme"
+    :can-send-test="canSendTest"
+    @send-test="emit('send-test', $event)"
+  />
 </template>

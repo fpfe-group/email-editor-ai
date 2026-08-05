@@ -630,7 +630,7 @@ Four `Symbol`-based `InjectionKey`s:
 | `EMAIL_DOCUMENT_KEY` | `UseEmailDocumentReturn` | Almost all components |
 | `EMAIL_SELECTION_KEY` | `UseEmailSelectionReturn` | Canvas, Overlay, Sidebar, Layers |
 | `EMAIL_DRAG_DROP_KEY` | `UseEmailDragDropReturn` | Canvas, BlockCard |
-| `EMAIL_EDITOR_CONFIG_KEY` | `{ variables: Ref<string[]> }` | BlocksPanel |
+| `EMAIL_EDITOR_CONFIG_KEY` | `{ variables: Ref<string[]>; ... }` | BlocksPanel, InlineToolbar, EditorToolbar |
 
 **RULE**: `inject()` calls in components use `!` (non-null assertion) because
 the editor guarantees these are always provided by `EmailEditor.vue`. If a
@@ -657,6 +657,7 @@ component is used outside the editor tree, it will throw at runtime.
 | `update:modelValue` | `string` | MJML string changes |
 | `update:compiledHtml` | `string` | Compiled HTML changes |
 | `update:designJson` | `Record<string, unknown>` | Design JSON changes |
+| `send-test` | `string` | Test-send toolbar action; payload is the compiled HTML |
 
 **Circular update guard**: When the editor emits `update:designJson`, the parent
 may bind it back to the `designJson` prop, triggering the watcher. The
@@ -676,12 +677,12 @@ Layout component. Contains:
 - `EditorToolbar` (fixed at top)
 - Main flex area:
   - `EditorCanvas` (visible when `activeView === 'visual'`)
-  - `CodeEditor` (async-loaded, visible when `activeView === 'code'`)
+  - `CodeEditor` (async-loaded, visible when `activeView === 'mjml'` or `activeView === 'html'`)
   - `EditorSidebar` (always visible, 300px width)
 
 **State**:
 - `isFullscreen` — toggles `position: fixed; inset: 0; z-index: 9999`
-- `activeView` — `'visual' | 'code'`
+- `activeView` — `'visual' | 'mjml' | 'html'`
 - `activeDeviceIndex` — index into `DEVICE_PRESETS` (0=Desktop 600px, 1=Tablet 480px, 2=Mobile 320px)
 - `canvasWidth` — computed from `DEVICE_PRESETS[activeDeviceIndex].width`
 
@@ -689,12 +690,16 @@ Layout component. Contains:
 
 ### 10.3 EditorToolbar.vue
 
-**Left**: Device switcher (3 buttons: Monitor/Tablet/Smartphone icons) + Undo/Redo buttons.
+**Left**: Device switcher (3 buttons: Monitor/Tablet/Smartphone icons).
 **Center**: Title text.
-**Right**: Code view toggle + Fullscreen toggle.
+**Right**: Undo/redo, optional send-test entry, dark preview, code view toggles, and fullscreen toggle.
 
 Undo/redo buttons call `doc.history.undo()` / `doc.history.redo()` AND then
 `doc.triggerEmit()` to immediately update the iframe (bypassing debounce).
+
+If the root component has an `@send-test` listener, the toolbar renders a
+"发送测试" button. It forces an immediate emit/compile, then emits the current
+compiled HTML string.
 
 ### 10.4 EditorCanvas.vue
 
