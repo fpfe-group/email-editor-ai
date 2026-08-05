@@ -14,11 +14,13 @@ import TextAlign from '@tiptap/extension-text-align'
 import Underline from '@tiptap/extension-underline'
 import { MergeTagExtension } from '../../extensions/merge-tag'
 import { EMAIL_EDITOR_CONFIG_KEY } from '../../injection-keys'
+import type { EmailNodeType } from '../../types'
 import InlineToolbar from './InlineToolbar.vue'
 
 const props = defineProps<{
   content: string
   rect: DOMRect
+  nodeType: EmailNodeType
 }>()
 
 const emit = defineEmits<{
@@ -70,7 +72,7 @@ function save() {
   if (!editor.value) return
   if (!isDirty.value) return
 
-  emit('save', editor.value.getHTML())
+  emit('save', getSerializableHtml())
 }
 
 function close() {
@@ -83,6 +85,38 @@ function onKeydown(e: KeyboardEvent) {
     e.preventDefault()
     close()
   }
+}
+
+function getSerializableHtml(): string {
+  if (!editor.value) return ''
+
+  const html = editor.value.getHTML()
+  if (props.nodeType !== 'mj-button') return html
+
+  return normalizeButtonHtml(html)
+}
+
+function normalizeButtonHtml(html: string): string {
+  const container = document.createElement('div')
+  container.innerHTML = html
+
+  const parts = Array.from(container.childNodes)
+    .map((child) => {
+      if (child instanceof HTMLElement && isButtonBlockWrapper(child)) {
+        return child.innerHTML.trim()
+      }
+
+      const wrapper = document.createElement('div')
+      wrapper.appendChild(child.cloneNode(true))
+      return wrapper.innerHTML.trim()
+    })
+    .filter(Boolean)
+
+  return parts.join('<br>')
+}
+
+function isButtonBlockWrapper(element: HTMLElement): boolean {
+  return ['P', 'DIV'].includes(element.tagName)
 }
 
 onBeforeUnmount(() => {

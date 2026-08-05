@@ -2,7 +2,7 @@
 import { inject, watch, ref, onMounted, onBeforeUnmount, defineAsyncComponent, nextTick } from 'vue'
 import { EMAIL_DOCUMENT_KEY, EMAIL_SELECTION_KEY, EMAIL_DRAG_DROP_KEY } from '../../injection-keys'
 import { EMAIL_LABELS_KEY, DEFAULT_LABELS } from '../../labels'
-import type { IframeMessage, DropPosition, EmailNode } from '../../types'
+import type { IframeMessage, DropPosition, EmailNode, EmailNodeType } from '../../types'
 import { CONTENT_NODE_TYPES } from '../../types'
 import { findNode, findParent } from '../../utils/tree'
 import CanvasOverlay from './CanvasOverlay.vue'
@@ -40,6 +40,7 @@ const iframeHeight = ref<number | null>(null)
 const inlineEditNodeId = ref<string | null>(null)
 const inlineEditContent = ref('')
 const inlineEditRect = ref<DOMRect | null>(null)
+const inlineEditNodeType = ref<EmailNodeType | null>(null)
 
 interface HitTestResult {
   nodeId: string | null
@@ -611,6 +612,7 @@ function openInlineEditor(nodeId: string, rect: DOMRect) {
   inlineEditNodeId.value = nodeId
   inlineEditContent.value = node.htmlContent || ''
   inlineEditRect.value = rect
+  inlineEditNodeType.value = node.type
 }
 
 function onInlineSave(html: string) {
@@ -623,6 +625,7 @@ function onInlineClose() {
   inlineEditNodeId.value = null
   inlineEditContent.value = ''
   inlineEditRect.value = null
+  inlineEditNodeType.value = null
 }
 
 // ─── Canvas-level drag events ───
@@ -814,9 +817,10 @@ onBeforeUnmount(() => {
 
       <!-- Inline text editor overlay -->
       <InlineTextEditor
-        v-if="inlineEditNodeId && inlineEditRect"
+        v-if="inlineEditNodeId && inlineEditRect && inlineEditNodeType"
         :content="inlineEditContent"
         :rect="inlineEditRect"
+        :node-type="inlineEditNodeType"
         @save="onInlineSave"
         @close="onInlineClose"
       />

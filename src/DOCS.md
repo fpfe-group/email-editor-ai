@@ -856,7 +856,7 @@ interface BlockDefinition {
   id: string                              // unique identifier, e.g. "layout-2-col"
   label: string                           // display name, e.g. "2 colonnes"
   category: 'layout' | 'content' | 'composite' | 'variable'
-  icon: string                            // lucide-vue-next icon name
+  icon: string                            // @lucide/vue icon name
   factory: () => EmailNode | EmailNode[]  // creates fresh node(s) with new IDs
 }
 ```
@@ -1563,7 +1563,7 @@ The sidebar panel component. Key features:
 | `@codemirror/view`, `@codemirror/state` | Code editor | `CodeEditor.vue` |
 | `@codemirror/lang-xml` | MJML syntax highlighting | `CodeEditor.vue` |
 | `@codemirror/theme-one-dark` | Editor theme | `CodeEditor.vue` |
-| `lucide-vue-next` (via BaseIcon) | Icons throughout UI | All components |
+| `@lucide/vue` (via EIcon) | Icons throughout UI | All components |
 
 ---
 

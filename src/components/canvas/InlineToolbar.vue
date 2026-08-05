@@ -411,7 +411,11 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
           :disabled="aiLoading"
           @click="toggleAiMenu"
         >
-          <EIcon :name="aiLoading ? 'Loader2' : 'Sparkles'" :size="14" />
+          <EIcon
+            class="ebb-inline-toolbar__ai-icon"
+            :name="aiLoading ? 'Loader2' : 'Sparkles'"
+            :size="14"
+          />
         </button>
         <div v-if="showAiMenu && !aiLoading" class="ebb-ai-menu" role="menu" @mousedown="preserveEditorSelection">
           <button class="ebb-ai-menu__item" role="menuitem" @click="aiAction('generate')">
@@ -605,6 +609,9 @@ function isActive(name: string, attrs?: Record<string, unknown>): boolean {
 .ebb-inline-toolbar__btn--loading {
   opacity: 0.6;
   cursor: wait;
+}
+
+.ebb-inline-toolbar__btn--loading .ebb-inline-toolbar__ai-icon {
   animation: ebb-ai-spin 1s linear infinite;
 }
 
