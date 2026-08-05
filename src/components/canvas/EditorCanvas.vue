@@ -6,6 +6,7 @@ import type { IframeMessage, DropPosition, EmailNode, EmailNodeType } from '../.
 import { CONTENT_NODE_TYPES } from '../../types'
 import { findNode, findParent } from '../../utils/tree'
 import CanvasOverlay from './CanvasOverlay.vue'
+import { refineToColumnHitTarget } from './hit-test'
 
 // Lazy load TipTap-based inline editor — only loaded when user double-clicks to edit
 const InlineTextEditor = defineAsyncComponent(() => import('./InlineTextEditor.vue'))
@@ -284,15 +285,7 @@ function updateIframe() {
           return cols[i];
         }
       }
-      // Fallback: nearest column by distance
-      var best = null, bestDist = Infinity;
-      for (var j = 0; j < cols.length; j++) {
-        var cr = cols[j].getBoundingClientRect();
-        var cx = cr.left + cr.width / 2;
-        var d = Math.abs(x - cx);
-        if (d < bestDist) { bestDist = d; best = cols[j]; }
-      }
-      return best || nodeEl;
+      return nodeEl;
     }
 
     // Handle query-rect requests from parent (for breadcrumb navigation)
@@ -655,25 +648,6 @@ function getNodeElement(el: Element | null): HTMLElement | null {
   return null
 }
 
-function refineToColumn(nodeEl: HTMLElement, x: number): HTMLElement {
-  const columns = Array.from(nodeEl.querySelectorAll<HTMLElement>('div[class*="mj-column-"]'))
-  if (columns.length === 0) return nodeEl
-
-  const containingColumn = columns.find((column) => {
-    const rect = column.getBoundingClientRect()
-    return x >= rect.left && x <= rect.right
-  })
-  if (containingColumn) return containingColumn
-
-  return columns.reduce((nearest, column) => {
-    const rect = column.getBoundingClientRect()
-    const nearestRect = nearest.getBoundingClientRect()
-    const distance = Math.abs(x - (rect.left + rect.width / 2))
-    const nearestDistance = Math.abs(x - (nearestRect.left + nearestRect.width / 2))
-    return distance < nearestDistance ? column : nearest
-  }, columns[0])
-}
-
 function getOverlayHitTest(e: DragEvent, isDrop: boolean): HitTestResult | null {
   const iframe = iframeRef.value
   const iframeDocument = iframe?.contentDocument
@@ -690,7 +664,7 @@ function getOverlayHitTest(e: DragEvent, isDrop: boolean): HitTestResult | null 
   }
 
   if (nodeElement.querySelector('div[class*="mj-column-"][data-node-id]')) {
-    nodeElement = refineToColumn(nodeElement, x)
+    nodeElement = refineToColumnHitTarget(nodeElement, x)
   }
 
   const rect = nodeElement.getBoundingClientRect()
