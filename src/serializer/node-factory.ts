@@ -2,7 +2,7 @@ import type { EmailNode, EmailDocument, EmailNodeType } from '../types'
 import { DEFAULT_THEME } from '../types'
 import { createId } from '../utils/id'
 
-/** Create a node with defaults */
+/** 创建带默认值的节点 */
 export function createNode(
   type: EmailNodeType,
   attributes: Record<string, string> = {},
@@ -41,7 +41,7 @@ export function createColumn(
 }
 
 export function createText(
-  htmlContent: string = '<p>Votre texte ici</p>',
+  htmlContent: string = '<p>在这里输入正文</p>',
   attributes: Record<string, string> = {},
 ): EmailNode {
   return createNode(
@@ -60,15 +60,15 @@ export function createText(
 
 export function createImage(attributes: Record<string, string> = {}): EmailNode {
   return createNode('mj-image', {
-    src: 'https://via.placeholder.com/600x200/e5e7eb/6b7280?text=Image',
-    alt: 'Image',
+    src: 'https://via.placeholder.com/600x200/e5e7eb/6b7280?text=%E5%9B%BE%E7%89%87',
+    alt: '图片',
     padding: '10px 25px',
     ...attributes,
   })
 }
 
 export function createButton(
-  text: string = 'Cliquez ici',
+  text: string = '点击这里',
   attributes: Record<string, string> = {},
 ): EmailNode {
   return createNode(
@@ -166,7 +166,7 @@ export function createRaw(htmlContent: string = ''): EmailNode {
   return createNode('mj-raw', {}, [], htmlContent)
 }
 
-/** Create the default starter document */
+/** 创建默认起始文档 */
 export function createDefaultDocument(): EmailDocument {
   return {
     version: 1,
@@ -179,7 +179,7 @@ export function createDefaultDocument(): EmailDocument {
       createSection([
         createColumn([
           createText(
-            '<h2 style="margin: 0; font-size: 20px; text-align: center;">Titre de votre email</h2>',
+            '<h2 style="margin: 0; font-size: 20px; text-align: center;">邮件标题</h2>',
             {
               align: 'center',
               'font-size': '20px',
@@ -187,13 +187,13 @@ export function createDefaultDocument(): EmailDocument {
             },
           ),
           createText(
-            '<p style="margin: 0;">Glissez-d\u00e9posez des blocs depuis le panneau de droite pour construire votre email.</p>',
+            '<p style="margin: 0;">从右侧面板拖拽模块，开始搭建你的邮件。</p>',
             {
               'font-size': '14px',
               color: '#555555',
             },
           ),
-          createButton('Cliquez ici'),
+          createButton('点击这里'),
         ]),
       ]),
     ]),

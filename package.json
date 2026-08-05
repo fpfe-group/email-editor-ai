@@ -7,6 +7,20 @@
   "main": "dist/email-editor.js",
   "module": "dist/email-editor.js",
   "types": "dist/email-editor.d.ts",
+  "scripts": {
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "beta-version": "npm version prerelease --preid=beta",
+    "patch-version": "npm version patch",
+    "minor-version": "npm version minor",
+    "major-version": "npm version major",
+    "deploy": "npm publish"
+  },
   "exports": {
     ".": {
       "types": "./dist/email-editor.d.ts",
@@ -70,20 +84,6 @@
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.59.0"
-  },
-  "scripts": {
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "build": "vite build",
-    "typecheck": "vue-tsc --noEmit",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "beta-version": "npm version prerelease --preid=beta",
-    "patch-version": "npm version patch",
-    "minor-version": "npm version minor",
-    "major-version": "npm version major",
-    "deploy": "npm publish"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.0",

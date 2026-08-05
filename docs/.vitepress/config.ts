@@ -86,7 +86,7 @@ export default defineConfig({
     },
 
     footer: {
-      message: '基于 MIT License 发布，©FPFE — 保留所有权利。',
+      message: '基于 MIT License 发布，©FPFE — 保留所有权利。<br>开源不易，且行且珍惜。',
     },
 
     editLink: {
