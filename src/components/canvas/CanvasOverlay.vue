@@ -39,6 +39,20 @@ const canSelectParent = computed(() => {
   return path.length >= 3 // [body, section, column] → can select section
 })
 
+const TOOLBAR_HEIGHT = 28
+const TOOLBAR_INSET = 4
+const showNodeToolbar = computed(() => selection.selectedNodePath.value.length > 1)
+const isToolbarInsideSelection = computed(() => (props.selectedRect?.top ?? 0) < TOOLBAR_HEIGHT)
+
+const toolbarStyle = computed(() => ({
+  top: isToolbarInsideSelection.value ? `${TOOLBAR_INSET}px` : `-${TOOLBAR_HEIGHT}px`,
+}))
+
+const conditionPanelStyle = computed(() => ({
+  top: isToolbarInsideSelection.value ? `${TOOLBAR_HEIGHT + TOOLBAR_INSET}px` : `-${TOOLBAR_HEIGHT + TOOLBAR_INSET}px`,
+  transform: isToolbarInsideSelection.value ? 'none' : 'translateY(-100%)',
+}))
+
 function onSelectParent() {
   selection.selectParent()
 }
@@ -208,7 +222,7 @@ const dropIndicatorStyle = computed(() => {
       }"
     >
       <!-- Node toolbar -->
-      <div class="ebb-overlay__toolbar" role="toolbar" :aria-label="selectedNodeType">
+      <div v-if="showNodeToolbar" class="ebb-overlay__toolbar" role="toolbar" :aria-label="selectedNodeType" :style="toolbarStyle">
         <div
           class="ebb-overlay__btn ebb-overlay__drag-handle"
           draggable="true"
@@ -249,7 +263,12 @@ const dropIndicatorStyle = computed(() => {
       </div>
 
       <!-- Condition panel popover -->
-      <div v-if="showConditionPanel && hasCondition && selectedNodeCondition" class="ebb-condition-panel" @mousedown.stop>
+      <div
+        v-if="showNodeToolbar && showConditionPanel && hasCondition && selectedNodeCondition"
+        class="ebb-condition-panel"
+        :style="conditionPanelStyle"
+        @mousedown.stop
+      >
         <div class="ebb-condition-panel__header">
           <EIcon name="Filter" :size="12" />
           <span>{{ resolveLabel('condition') }}</span>
@@ -333,7 +352,6 @@ const dropIndicatorStyle = computed(() => {
 
 .ebb-overlay__toolbar {
   position: absolute;
-  top: -28px;
   left: 0;
   display: flex;
   align-items: center;
@@ -451,9 +469,7 @@ const dropIndicatorStyle = computed(() => {
 
 .ebb-condition-panel {
   position: absolute;
-  top: -28px;
   right: 0;
-  transform: translateY(-100%);
   background: #1f2937;
   border: 1px solid #374151;
   border-radius: 8px;
