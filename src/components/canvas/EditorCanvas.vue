@@ -734,6 +734,17 @@ function onOverlayDragLeave(e: DragEvent) {
   }
 }
 
+function clearCanvasSelection() {
+  selection.clearSelection()
+  selectedRect.value = null
+  hoveredRect.value = null
+}
+
+function onCanvasPointerDown(e: PointerEvent) {
+  if (e.target !== canvasRef.value) return
+  clearCanvasSelection()
+}
+
 // ─── Watchers ───
 
 // When selectedNodeId changes (e.g. via breadcrumb), ask iframe for the new rect
@@ -786,6 +797,7 @@ onBeforeUnmount(() => {
     :class="{ 'ebb-canvas--inline-editing': !!inlineEditRect }"
     role="region"
     aria-label="Email canvas"
+    @pointerdown="onCanvasPointerDown"
   >
     <!-- Loading overlay -->
     <div v-if="doc.isCompiling.value && !doc.compiledHtml.value" class="ebb-canvas__loading" role="status" aria-live="polite">

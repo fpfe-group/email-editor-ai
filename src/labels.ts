@@ -21,6 +21,12 @@ export interface EditorLabels {
   init_error: string
   templates: string
   starter_templates: string
+  template_panel_hint: string
+  template_apply_title_prefix: string
+  template_apply_title_suffix: string
+  template_apply_description: string
+  template_apply_cancel: string
+  template_apply_confirm: string
   no_blocks_found: string
 
   // ─── 区块分类 ───
@@ -304,6 +310,12 @@ export const DEFAULT_LABELS: EditorLabels = {
   init_error: '编辑器初始化失败',
   templates: '模板',
   starter_templates: '入门模板',
+  template_panel_hint: '选择模板，快速开始设计。',
+  template_apply_title_prefix: '应用「',
+  template_apply_title_suffix: '」？',
+  template_apply_description: '当前邮件内容将被此模板完全替换，此操作不可撤销。',
+  template_apply_cancel: '取消',
+  template_apply_confirm: '应用',
   no_blocks_found: '未找到匹配区块：',
 
   // ─── 区块分类 ───
