@@ -7,6 +7,34 @@ import EIcon from '../../internal/EIcon.vue'
 
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp']
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024 // 5MB
+const DEFAULT_BORDER_COLOR = '#000000'
+const HEX_COLOR_RE = /^#(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i
+const COLOR_FUNCTION_RE = /^(?:rgb|rgba|hsl|hsla)\(.+\)$/i
+const CSS_WIDE_KEYWORD_COLORS = new Set(['transparent', 'currentcolor'])
+const NAMED_COLORS = new Set([
+  'black',
+  'white',
+  'red',
+  'green',
+  'blue',
+  'gray',
+  'grey',
+  'yellow',
+  'orange',
+  'purple',
+  'pink',
+  'brown',
+  'cyan',
+  'magenta',
+  'navy',
+  'teal',
+  'lime',
+  'silver',
+  'maroon',
+  'olive',
+  'aqua',
+  'fuchsia',
+])
 
 const props = defineProps<{
   label: string
@@ -40,6 +68,56 @@ function resolveLabel(key: string): string {
 
 function getValue(key: string): string {
   return props.node.attributes[key] || ''
+}
+
+function splitCssTokens(value: string): string[] {
+  const tokens: string[] = []
+  let current = ''
+  let depth = 0
+
+  for (const char of value.trim()) {
+    if (/\s/.test(char) && depth === 0) {
+      if (current) {
+        tokens.push(current)
+        current = ''
+      }
+      continue
+    }
+    if (char === '(') depth++
+    if (char === ')') depth = Math.max(0, depth - 1)
+    current += char
+  }
+
+  if (current) tokens.push(current)
+  return tokens
+}
+
+function isCssColorToken(token: string): boolean {
+  const normalized = token.toLowerCase()
+  return HEX_COLOR_RE.test(token)
+    || COLOR_FUNCTION_RE.test(token)
+    || CSS_WIDE_KEYWORD_COLORS.has(normalized)
+    || NAMED_COLORS.has(normalized)
+}
+
+function getBorderColorValue(value: string): string {
+  const colorToken = splitCssTokens(value).find((token) => HEX_COLOR_RE.test(token))
+  return colorToken || DEFAULT_BORDER_COLOR
+}
+
+function withBorderColor(value: string, color: string): string {
+  const tokens = splitCssTokens(value)
+  if (tokens.length === 0 || value.trim() === 'none') {
+    return `1px solid ${color}`
+  }
+
+  const colorIndex = tokens.findIndex(isCssColorToken)
+  if (colorIndex === -1) {
+    return `${value.trim()} ${color}`
+  }
+
+  tokens[colorIndex] = color
+  return tokens.join(' ')
 }
 
 function isValidImageFile(file: File): string | null {
@@ -199,6 +277,24 @@ async function browseAssets(key: string) {
           class="ebb-prop-group__text-input"
           @change="emit('update', prop.key, ($event.target as HTMLInputElement).value)"
         />
+
+        <!-- Border shorthand with color helper -->
+        <div v-else-if="prop.key === 'border'" class="ebb-prop-group__color">
+          <input
+            type="color"
+            :value="getBorderColorValue(getValue(prop.key))"
+            class="ebb-prop-group__color-input"
+            :aria-label="resolveLabel(prop.label)"
+            @input="emit('update', prop.key, withBorderColor(getValue(prop.key), ($event.target as HTMLInputElement).value))"
+          />
+          <input
+            type="text"
+            :value="getValue(prop.key)"
+            :placeholder="prop.defaultValue || '1px solid #000000'"
+            class="ebb-prop-group__text-input"
+            @change="emit('update', prop.key, ($event.target as HTMLInputElement).value)"
+          />
+        </div>
 
         <!-- Image upload -->
         <div v-else-if="prop.type === 'image'" class="ebb-prop-group__image">
