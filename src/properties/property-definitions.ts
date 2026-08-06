@@ -123,11 +123,9 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
   'mj-column': [
     { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_background' },
-    INNER_BACKGROUND_PROPERTY,
     PADDING_PROPERTY,
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
     BORDER_RADIUS_PROPERTY,
-    { key: 'inner-border-radius', label: 'prop_inner_border_radius', type: 'text', group: 'group_border' },
     { key: 'vertical-align', label: 'prop_vertical_align', type: 'select', options: VERTICAL_ALIGN_OPTIONS, group: 'group_layout' },
   ],
 

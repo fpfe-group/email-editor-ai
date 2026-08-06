@@ -167,8 +167,6 @@ function updateIframe() {
     body { margin: 0; padding: 0; }
     [data-node-id] { cursor: pointer; transition: outline 0.1s ease; }
     [data-node-id]:hover { outline: 1px dashed rgba(1, 168, 171, 0.4); outline-offset: -1px; }
-    /* Editor mode: give empty columns a minimum drop target area */
-    div[class*="mj-column-"] { min-height: 60px; }
     ${darkModeStyles}
   </style>
 </head>

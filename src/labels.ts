@@ -121,7 +121,6 @@ export interface EditorLabels {
   prop_padding: string
   prop_border: string
   prop_border_radius: string
-  prop_inner_border_radius: string
   prop_border_color: string
   prop_border_width: string
   prop_border_style: string
@@ -415,7 +414,6 @@ export const DEFAULT_LABELS: EditorLabels = {
   prop_padding: '内边距',
   prop_border: '边框',
   prop_border_radius: '圆角',
-  prop_inner_border_radius: '内部圆角',
   prop_border_color: '颜色',
   prop_border_width: '宽度',
   prop_border_style: '样式',

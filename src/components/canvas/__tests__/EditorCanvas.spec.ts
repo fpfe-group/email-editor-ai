@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 import EditorCanvas from '../EditorCanvas.vue'
 import { EMAIL_DOCUMENT_KEY, EMAIL_DRAG_DROP_KEY, EMAIL_SELECTION_KEY } from '../../../injection-keys'
@@ -20,7 +20,7 @@ const document = ref<EmailDocument>({
   },
 })
 
-function mountEditorCanvas(clearSelection = vi.fn()) {
+function mountEditorCanvas(clearSelection = vi.fn(), compiledHtml = '') {
   return mount(EditorCanvas, {
     props: {
       canvasWidth: 600,
@@ -29,7 +29,7 @@ function mountEditorCanvas(clearSelection = vi.fn()) {
       provide: {
         [EMAIL_DOCUMENT_KEY as symbol]: {
           document,
-          compiledHtml: ref(''),
+          compiledHtml: ref(compiledHtml),
           isCompiling: ref(false),
           deleteNode: vi.fn(),
           duplicateNode: vi.fn(),
@@ -84,5 +84,17 @@ describe('EditorCanvas', () => {
     await wrapper.get('.ebb-canvas__iframe-wrapper').trigger('pointerdown')
 
     expect(clearSelection).not.toHaveBeenCalled()
+  })
+
+  it('does not inject a fixed minimum height for columns', async () => {
+    const wrapper = mountEditorCanvas(
+      vi.fn(),
+      '<!doctype html><html><head></head><body><div class="mj-column-per-100 ebb-node-column-1"></div></body></html>',
+    )
+
+    await nextTick()
+
+    const iframe = wrapper.get('iframe').element as HTMLIFrameElement
+    expect(iframe.srcdoc).not.toContain('min-height: 60px')
   })
 })

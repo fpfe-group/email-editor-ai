@@ -21,6 +21,7 @@ describe('PROPERTY_MAP spacing and background controls', () => {
 
   it('shows container background controls with the container background label', () => {
     expect(getPropertyKeys('mj-text')).not.toContain('background-color')
+    expect(getPropertyKeys('mj-column')).not.toContain('inner-background-color')
     expect(getPropertyLabel('mj-text', 'container-background-color')).toBe('prop_container_background')
     expect(getPropertyLabel('mj-image', 'container-background-color')).toBe('prop_container_background')
     expect(getPropertyLabel('mj-divider', 'container-background-color')).toBe('prop_container_background')
@@ -30,7 +31,7 @@ describe('PROPERTY_MAP spacing and background controls', () => {
   it('exposes border radius only on MJML nodes that support it', () => {
     const supportedRadiusKeys: Partial<Record<EmailNodeType, string[]>> = {
       'mj-section': ['border-radius'],
-      'mj-column': ['border-radius', 'inner-border-radius'],
+      'mj-column': ['border-radius'],
       'mj-image': ['border-radius'],
       'mj-button': ['border-radius'],
       'mj-social': ['border-radius'],
@@ -46,12 +47,13 @@ describe('PROPERTY_MAP spacing and background controls', () => {
     for (const type of ['mj-body', 'mj-text', 'mj-divider', 'mj-spacer'] as EmailNodeType[]) {
       expect(getPropertyKeys(type)).not.toContain('border-radius')
     }
+    expect(getPropertyKeys('mj-column')).not.toContain('inner-border-radius')
   })
 
   it('exposes supported spacing and background controls on editable MJML nodes', () => {
     const expectedKeys: Partial<Record<EmailNodeType, string[]>> = {
       'mj-section': ['background-color', 'padding'],
-      'mj-column': ['background-color', 'inner-background-color', 'padding'],
+      'mj-column': ['background-color', 'padding'],
       'mj-text': ['container-background-color', 'padding'],
       'mj-image': ['container-background-color', 'padding'],
       'mj-button': ['background-color', 'inner-padding', 'padding'],
