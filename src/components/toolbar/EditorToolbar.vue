@@ -18,6 +18,7 @@ const emit = defineEmits<{
   'toggle-mjml-view': []
   'toggle-html-view': []
   'toggle-dark-preview': []
+  'import-mjml': []
   'send-test': [html: string]
   'update:activeDeviceIndex': [index: number]
 }>()
@@ -128,6 +129,48 @@ async function sendTestEmail() {
         <EIcon :name="isDarkPreview ? 'Sun' : 'Moon'" :size="16" />
       </button>
       <div class="ebb-toolbar__divider"></div>
+      <button
+        class="ebb-toolbar__action-btn ebb-toolbar__action-btn--code"
+        :title="labels.import_mjml"
+        :aria-label="labels.import_mjml"
+        @click="emit('import-mjml')"
+      >
+        <svg
+          class="ebb-toolbar__code-icon"
+          viewBox="0 0 44 32"
+          fill="none"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M22 3.5V15.5"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <path
+            d="M16.5 9L22 3.5L27.5 9"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13 16.5V18.5C13 20.2 14.3 21.5 16 21.5H28C29.7 21.5 31 20.2 31 18.5V16.5"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <text
+            x="22"
+            y="29"
+            text-anchor="middle"
+            fill="currentColor"
+            class="ebb-toolbar__code-icon-text"
+          >MJML</text>
+        </svg>
+      </button>
       <button
         class="ebb-toolbar__action-btn ebb-toolbar__action-btn--code"
         :class="{ 'ebb-toolbar__action-btn--active': activeView === 'mjml' }"

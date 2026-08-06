@@ -9,6 +9,9 @@ import { EMAIL_LABELS_KEY, DEFAULT_LABELS } from '../labels'
 import { DEVICE_PRESETS } from '../constants'
 import type { ThemeConfig } from '../types'
 import { DEFAULT_THEME } from '../types'
+import { documentToMjml } from '../serializer/json-to-mjml'
+import { mjmlToDocument } from '../serializer/mjml-to-json'
+import { compileMjml } from '../composables/useMjmlCompiler'
 
 const CodeEditor = defineAsyncComponent(() => import('./code/CodeEditor.vue'))
 
@@ -64,6 +67,10 @@ const activeView = ref<'visual' | 'mjml' | 'html'>('visual')
 const initError = ref('')
 const activeDeviceIndex = ref(0)
 const isDarkPreview = ref(false)
+const isImportMjmlOpen = ref(false)
+const importMjmlSource = ref('')
+const importMjmlError = ref('')
+const isImportingMjml = ref(false)
 
 const canvasWidth = computed(() => DEVICE_PRESETS[activeDeviceIndex.value].width)
 
@@ -81,6 +88,53 @@ function toggleHtmlView() {
 
 function toggleDarkPreview() {
   isDarkPreview.value = !isDarkPreview.value
+}
+
+function openImportMjml() {
+  importMjmlSource.value = documentToMjml(doc.document.value)
+  importMjmlError.value = ''
+  isImportMjmlOpen.value = true
+}
+
+function closeImportMjml() {
+  if (isImportingMjml.value) return
+  isImportMjmlOpen.value = false
+  importMjmlError.value = ''
+}
+
+async function applyImportedMjml() {
+  const source = importMjmlSource.value.trim()
+  if (!source) {
+    importMjmlError.value = labels.import_mjml_empty
+    return
+  }
+
+  if (!/<mjml[\s>]/i.test(source)) {
+    importMjmlError.value = labels.import_mjml_invalid
+    return
+  }
+
+  isImportingMjml.value = true
+  importMjmlError.value = ''
+  try {
+    const result = await compileMjml(source)
+    if (!result.html) {
+      const errorMessage = result.errors
+        .map((error) => error.line ? `Line ${error.line}: ${error.message}` : error.message)
+        .join('\n')
+      importMjmlError.value = errorMessage
+        ? `${labels.import_mjml_invalid}：${errorMessage}`
+        : labels.import_mjml_invalid
+      return
+    }
+
+    doc.replaceDocument(mjmlToDocument(source))
+    await doc.triggerEmit()
+    activeView.value = 'visual'
+    isImportMjmlOpen.value = false
+  } finally {
+    isImportingMjml.value = false
+  }
 }
 </script>
 
@@ -123,9 +177,56 @@ function toggleDarkPreview() {
         @toggle-mjml-view="toggleMjmlView"
         @toggle-html-view="toggleHtmlView"
         @toggle-dark-preview="toggleDarkPreview"
+        @import-mjml="openImportMjml"
         @send-test="emit('send-test', $event)"
         @update:active-device-index="activeDeviceIndex = $event"
       />
+
+      <div v-if="isImportMjmlOpen" class="ebb-import-mjml" role="dialog" aria-modal="true" @click.self="closeImportMjml">
+        <div class="ebb-import-mjml__panel">
+          <div class="ebb-import-mjml__header">
+            <div class="ebb-import-mjml__title">
+              <EIcon name="Upload" :size="16" />
+              <span>{{ labels.import_mjml_title }}</span>
+            </div>
+            <button
+              type="button"
+              class="ebb-import-mjml__close"
+              :aria-label="labels.close"
+              :disabled="isImportingMjml"
+              @click="closeImportMjml"
+            >
+              <EIcon name="X" :size="15" />
+            </button>
+          </div>
+          <textarea
+            v-model="importMjmlSource"
+            class="ebb-import-mjml__textarea"
+            spellcheck="false"
+            :placeholder="labels.import_mjml_placeholder"
+          ></textarea>
+          <pre v-if="importMjmlError" class="ebb-import-mjml__error">{{ importMjmlError }}</pre>
+          <div class="ebb-import-mjml__actions">
+            <button
+              type="button"
+              class="ebb-import-mjml__btn ebb-import-mjml__btn--ghost"
+              :disabled="isImportingMjml"
+              @click="closeImportMjml"
+            >
+              {{ labels.import_mjml_cancel }}
+            </button>
+            <button
+              type="button"
+              class="ebb-import-mjml__btn ebb-import-mjml__btn--primary"
+              :disabled="isImportingMjml"
+              @click="applyImportedMjml"
+            >
+              <EIcon v-if="isImportingMjml" name="LoaderCircle" :size="14" />
+              <span>{{ labels.import_mjml_apply }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
 
       <!-- ═══ MAIN AREA ═══ -->
       <div class="ebb-main">
@@ -188,6 +289,7 @@ html[data-theme='dark'] .ebb-alert {
 }
 
 .ebb-shell {
+  position: relative;
   border: 1px solid var(--ee-border, #e5e7eb);
   border-radius: 12px;
   overflow: hidden;
@@ -216,6 +318,169 @@ html[data-theme='dark'] .ebb-alert {
   flex: 1;
   min-height: 0;
   overflow: hidden;
+}
+
+.ebb-import-mjml {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.ebb-import-mjml__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(760px, 100%);
+  max-height: min(680px, calc(100vh - 96px));
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+}
+
+html[data-theme='dark'] .ebb-import-mjml__panel {
+  border-color: #374151;
+  background: #111827;
+}
+
+.ebb-import-mjml__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+html[data-theme='dark'] .ebb-import-mjml__header {
+  border-bottom-color: #374151;
+}
+
+.ebb-import-mjml__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+html[data-theme='dark'] .ebb-import-mjml__title {
+  color: #f9fafb;
+}
+
+.ebb-import-mjml__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.ebb-import-mjml__close:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+html[data-theme='dark'] .ebb-import-mjml__close:hover {
+  background: #1f2937;
+  color: #f9fafb;
+}
+
+.ebb-import-mjml__textarea {
+  flex: 1;
+  min-height: 360px;
+  max-height: 520px;
+  padding: 14px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.ebb-import-mjml__textarea::placeholder {
+  color: #94a3b8;
+}
+
+.ebb-import-mjml__error {
+  max-height: 96px;
+  margin: 0;
+  padding: 10px 14px;
+  overflow: auto;
+  border-top: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.ebb-import-mjml__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid #e5e7eb;
+}
+
+html[data-theme='dark'] .ebb-import-mjml__actions {
+  border-top-color: #374151;
+}
+
+.ebb-import-mjml__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 88px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ebb-import-mjml__btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.ebb-import-mjml__btn--ghost {
+  border-color: #d1d5db;
+  background: #ffffff;
+  color: #374151;
+}
+
+.ebb-import-mjml__btn--primary {
+  background: var(--ee-primary);
+  color: #ffffff;
+}
+
+.ebb-import-mjml__btn--primary .lucide-loader-circle {
+  animation: ebb-import-mjml-spin 0.8s linear infinite;
+}
+
+@keyframes ebb-import-mjml-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ═══ Screen reader only ═══ */

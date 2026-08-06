@@ -138,6 +138,7 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'line-height', label: 'prop_line_height', type: 'text', group: 'group_text' },
     { key: 'letter-spacing', label: 'prop_letter_spacing', type: 'text', group: 'group_text' },
     { key: 'align', label: 'prop_align', type: 'alignment', group: 'group_text' },
+    { key: 'height', label: 'prop_height', type: 'text', group: 'group_dimensions' },
     PADDING_PROPERTY,
   ],
 
@@ -156,12 +157,15 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
 
   'mj-button': [
     { key: 'href', label: 'prop_href', type: 'url', group: 'group_link' },
+    CONTAINER_BACKGROUND_PROPERTY,
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_style' },
     { key: 'color', label: 'prop_color', type: 'color', group: 'group_style' },
     { key: 'font-family', label: 'prop_font_family', type: 'select', options: FONT_OPTIONS, group: 'group_style' },
     { key: 'font-size', label: 'prop_font_size', type: 'number', unit: 'px', min: 8, max: 36, group: 'group_style' },
     { key: 'font-weight', label: 'prop_font_weight', type: 'text', group: 'group_style' },
     BORDER_RADIUS_PROPERTY,
+    { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
+    { key: 'height', label: 'prop_height', type: 'text', group: 'group_dimensions' },
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
     INNER_PADDING_PROPERTY,
     { key: 'padding', label: 'prop_outer_padding', type: 'padding', group: 'group_spacing' },
@@ -223,9 +227,9 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'background-height', label: 'prop_background_height', type: 'text', group: 'group_background' },
     { key: 'background-width', label: 'prop_background_width', type: 'text', group: 'group_background' },
     { key: 'mode', label: 'prop_mode', type: 'select', options: HERO_MODE_OPTIONS, group: 'group_background' },
+    { key: 'height', label: 'prop_height', type: 'text', group: 'group_dimensions' },
     PADDING_PROPERTY,
     INNER_PADDING_PROPERTY,
-    { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
     BORDER_RADIUS_PROPERTY,
   ],
 

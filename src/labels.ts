@@ -13,6 +13,13 @@ export interface EditorLabels {
   code: string
   mjml_code: string
   html_code: string
+  import_mjml: string
+  import_mjml_title: string
+  import_mjml_placeholder: string
+  import_mjml_apply: string
+  import_mjml_cancel: string
+  import_mjml_empty: string
+  import_mjml_invalid: string
   copy_code: string
   code_copied: string
   fullscreen: string
@@ -306,6 +313,13 @@ export const DEFAULT_LABELS: EditorLabels = {
   code: '源码',
   mjml_code: 'MJML 代码',
   html_code: 'HTML 代码',
+  import_mjml: '回填 MJML',
+  import_mjml_title: '回填 MJML 代码',
+  import_mjml_placeholder: '<mjml>\n  <mj-body>\n    ...\n  </mj-body>\n</mjml>',
+  import_mjml_apply: '应用并渲染',
+  import_mjml_cancel: '取消',
+  import_mjml_empty: '请先粘贴 MJML 代码',
+  import_mjml_invalid: 'MJML 编译失败',
   copy_code: '复制代码',
   code_copied: '已复制',
   fullscreen: '全屏',

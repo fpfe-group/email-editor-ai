@@ -61,4 +61,12 @@ describe('EditorToolbar', () => {
     expect(triggerEmit).toHaveBeenCalledTimes(1)
     expect(wrapper.emitted('send-test')).toEqual([['<html><body>Preview</body></html>']])
   })
+
+  it('emits import-mjml from the toolbar entry', async () => {
+    const wrapper = mountEditorToolbar()
+
+    await wrapper.get('[aria-label="回填 MJML"]').trigger('click')
+
+    expect(wrapper.emitted('import-mjml')).toEqual([[]])
+  })
 })

@@ -24,6 +24,7 @@ describe('PROPERTY_MAP spacing and background controls', () => {
     expect(getPropertyKeys('mj-column')).not.toContain('inner-background-color')
     expect(getPropertyLabel('mj-text', 'container-background-color')).toBe('prop_container_background')
     expect(getPropertyLabel('mj-image', 'container-background-color')).toBe('prop_container_background')
+    expect(getPropertyLabel('mj-button', 'container-background-color')).toBe('prop_container_background')
     expect(getPropertyLabel('mj-divider', 'container-background-color')).toBe('prop_container_background')
     expect(getPropertyLabel('mj-spacer', 'container-background-color')).toBe('prop_container_background')
   })
@@ -54,9 +55,9 @@ describe('PROPERTY_MAP spacing and background controls', () => {
     const expectedKeys: Partial<Record<EmailNodeType, string[]>> = {
       'mj-section': ['background-color', 'padding'],
       'mj-column': ['background-color', 'padding'],
-      'mj-text': ['container-background-color', 'padding'],
+      'mj-text': ['container-background-color', 'height', 'padding'],
       'mj-image': ['container-background-color', 'padding'],
-      'mj-button': ['background-color', 'inner-padding', 'padding'],
+      'mj-button': ['container-background-color', 'background-color', 'width', 'height', 'inner-padding', 'padding'],
       'mj-divider': ['container-background-color', 'padding'],
       'mj-spacer': ['container-background-color', 'padding'],
       'mj-social': [
@@ -71,6 +72,9 @@ describe('PROPERTY_MAP spacing and background controls', () => {
       'mj-hero': [
         'background-color',
         'inner-background-color',
+        'background-width',
+        'background-height',
+        'height',
         'padding',
         'inner-padding',
         'border-radius',
@@ -81,5 +85,15 @@ describe('PROPERTY_MAP spacing and background controls', () => {
     for (const [type, keys] of Object.entries(expectedKeys) as Array<[EmailNodeType, string[]]>) {
       expect(getPropertyKeys(type)).toEqual(expect.arrayContaining(keys))
     }
+  })
+
+  it('does not expose unsupported width and height controls', () => {
+    expect(getPropertyKeys('mj-hero')).not.toContain('width')
+    expect(getPropertyKeys('mj-divider')).not.toContain('height')
+    expect(getPropertyKeys('mj-spacer')).not.toContain('width')
+    expect(getPropertyKeys('mj-section')).not.toContain('width')
+    expect(getPropertyKeys('mj-section')).not.toContain('height')
+    expect(getPropertyKeys('mj-wrapper')).not.toContain('width')
+    expect(getPropertyKeys('mj-wrapper')).not.toContain('height')
   })
 })
