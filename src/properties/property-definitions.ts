@@ -52,6 +52,55 @@ const HERO_MODE_OPTIONS = [
   { label: 'mode_fluid', value: 'fluid' },
 ]
 
+const CONTAINER_BACKGROUND_PROPERTY: PropertyDefinition = {
+  key: 'container-background-color',
+  label: 'prop_container_background',
+  type: 'color',
+  group: 'group_background',
+}
+
+const INNER_BACKGROUND_PROPERTY: PropertyDefinition = {
+  key: 'inner-background-color',
+  label: 'prop_inner_background_color',
+  type: 'color',
+  group: 'group_background',
+}
+
+const PADDING_PROPERTY: PropertyDefinition = {
+  key: 'padding',
+  label: 'prop_padding',
+  type: 'padding',
+  group: 'group_spacing',
+}
+
+const INNER_PADDING_PROPERTY: PropertyDefinition = {
+  key: 'inner-padding',
+  label: 'prop_inner_padding',
+  type: 'padding',
+  group: 'group_spacing',
+}
+
+const ICON_PADDING_PROPERTY: PropertyDefinition = {
+  key: 'icon-padding',
+  label: 'prop_icon_padding',
+  type: 'padding',
+  group: 'group_spacing',
+}
+
+const TEXT_PADDING_PROPERTY: PropertyDefinition = {
+  key: 'text-padding',
+  label: 'prop_text_padding',
+  type: 'padding',
+  group: 'group_spacing',
+}
+
+const BORDER_RADIUS_PROPERTY: PropertyDefinition = {
+  key: 'border-radius',
+  label: 'prop_border_radius',
+  type: 'text',
+  group: 'group_border',
+}
+
 /** Property definitions for each MJML node type */
 export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> = {
   'mj-body': [
@@ -64,9 +113,9 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'background-url', label: 'prop_background_url', type: 'image', group: 'group_background' },
     { key: 'background-size', label: 'prop_background_size', type: 'select', options: BG_SIZE_OPTIONS, group: 'group_background' },
     { key: 'background-repeat', label: 'prop_background_repeat', type: 'select', options: BG_REPEAT_OPTIONS, group: 'group_background' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
-    { key: 'border-radius', label: 'prop_border_radius', type: 'text', group: 'group_border' },
+    BORDER_RADIUS_PROPERTY,
     { key: 'full-width', label: 'prop_full_width', type: 'toggle', group: 'group_layout' },
     { key: 'direction', label: 'prop_direction', type: 'select', options: DIRECTION_OPTIONS, group: 'group_layout' },
   ],
@@ -74,14 +123,16 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
   'mj-column': [
     { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_background' },
-    { key: 'inner-background-color', label: 'prop_inner_background_color', type: 'color', group: 'group_background' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    INNER_BACKGROUND_PROPERTY,
+    PADDING_PROPERTY,
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
-    { key: 'border-radius', label: 'prop_border_radius', type: 'text', group: 'group_border' },
+    BORDER_RADIUS_PROPERTY,
+    { key: 'inner-border-radius', label: 'prop_inner_border_radius', type: 'text', group: 'group_border' },
     { key: 'vertical-align', label: 'prop_vertical_align', type: 'select', options: VERTICAL_ALIGN_OPTIONS, group: 'group_layout' },
   ],
 
   'mj-text': [
+    CONTAINER_BACKGROUND_PROPERTY,
     { key: 'color', label: 'prop_color', type: 'color', group: 'group_text' },
     { key: 'font-family', label: 'prop_font_family', type: 'select', options: FONT_OPTIONS, group: 'group_text' },
     { key: 'font-size', label: 'prop_font_size', type: 'number', unit: 'px', min: 8, max: 72, group: 'group_text' },
@@ -89,19 +140,20 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'line-height', label: 'prop_line_height', type: 'text', group: 'group_text' },
     { key: 'letter-spacing', label: 'prop_letter_spacing', type: 'text', group: 'group_text' },
     { key: 'align', label: 'prop_align', type: 'alignment', group: 'group_text' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
   ],
 
   'mj-image': [
     { key: 'src', label: 'prop_src', type: 'image', group: 'group_image' },
     { key: 'alt', label: 'prop_alt', type: 'text', group: 'group_image' },
     { key: 'href', label: 'prop_href', type: 'url', group: 'group_link' },
+    CONTAINER_BACKGROUND_PROPERTY,
     { key: 'width', label: 'prop_width', type: 'number', unit: 'px', group: 'group_dimensions' },
     { key: 'height', label: 'prop_height', type: 'text', group: 'group_dimensions' },
     { key: 'align', label: 'prop_align', type: 'alignment', group: 'group_layout' },
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
-    { key: 'border-radius', label: 'prop_border_radius', type: 'text', group: 'group_border' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    BORDER_RADIUS_PROPERTY,
+    PADDING_PROPERTY,
   ],
 
   'mj-button': [
@@ -111,9 +163,9 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'font-family', label: 'prop_font_family', type: 'select', options: FONT_OPTIONS, group: 'group_style' },
     { key: 'font-size', label: 'prop_font_size', type: 'number', unit: 'px', min: 8, max: 36, group: 'group_style' },
     { key: 'font-weight', label: 'prop_font_weight', type: 'text', group: 'group_style' },
-    { key: 'border-radius', label: 'prop_border_radius', type: 'text', group: 'group_border' },
+    BORDER_RADIUS_PROPERTY,
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
-    { key: 'inner-padding', label: 'prop_inner_padding', type: 'padding', group: 'group_spacing' },
+    INNER_PADDING_PROPERTY,
     { key: 'padding', label: 'prop_outer_padding', type: 'padding', group: 'group_spacing' },
     { key: 'align', label: 'prop_align', type: 'alignment', group: 'group_layout' },
     { key: 'text-transform', label: 'prop_text_transform', type: 'select', options: [
@@ -125,19 +177,22 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
   ],
 
   'mj-divider': [
+    CONTAINER_BACKGROUND_PROPERTY,
     { key: 'border-color', label: 'prop_border_color', type: 'color', group: 'group_style' },
     { key: 'border-width', label: 'prop_border_width', type: 'number', unit: 'px', min: 1, max: 20, group: 'group_style' },
     { key: 'border-style', label: 'prop_border_style', type: 'select', options: BORDER_STYLE_OPTIONS, group: 'group_style' },
     { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
   ],
 
   'mj-spacer': [
     { key: 'height', label: 'prop_height', type: 'number', unit: 'px', min: 1, max: 200, group: 'group_dimensions' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    CONTAINER_BACKGROUND_PROPERTY,
+    PADDING_PROPERTY,
   ],
 
   'mj-social': [
+    CONTAINER_BACKGROUND_PROPERTY,
     { key: 'align', label: 'prop_align', type: 'alignment', group: 'group_layout' },
     { key: 'icon-size', label: 'prop_icon_size', type: 'number', unit: 'px', min: 16, max: 64, group: 'group_style' },
     { key: 'font-size', label: 'prop_font_size', type: 'number', unit: 'px', min: 8, max: 24, group: 'group_style' },
@@ -145,7 +200,11 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
       { label: 'mode_horizontal', value: 'horizontal' },
       { label: 'mode_vertical', value: 'vertical' },
     ], group: 'group_layout' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
+    INNER_PADDING_PROPERTY,
+    ICON_PADDING_PROPERTY,
+    TEXT_PADDING_PROPERTY,
+    BORDER_RADIUS_PROPERTY,
   ],
 
   'mj-social-element': [
@@ -153,24 +212,31 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'href', label: 'prop_href', type: 'url', group: 'group_link' },
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_style' },
     { key: 'src', label: 'prop_custom_icon', type: 'image', group: 'group_style' },
+    PADDING_PROPERTY,
+    ICON_PADDING_PROPERTY,
+    TEXT_PADDING_PROPERTY,
+    BORDER_RADIUS_PROPERTY,
   ],
 
   'mj-hero': [
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_background' },
     { key: 'background-url', label: 'prop_background_url', type: 'image', group: 'group_background' },
+    INNER_BACKGROUND_PROPERTY,
     { key: 'background-height', label: 'prop_background_height', type: 'text', group: 'group_background' },
     { key: 'background-width', label: 'prop_background_width', type: 'text', group: 'group_background' },
     { key: 'mode', label: 'prop_mode', type: 'select', options: HERO_MODE_OPTIONS, group: 'group_background' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
+    INNER_PADDING_PROPERTY,
     { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
+    BORDER_RADIUS_PROPERTY,
   ],
 
   'mj-wrapper': [
     { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_background' },
     { key: 'background-url', label: 'prop_background_url', type: 'image', group: 'group_background' },
-    { key: 'padding', label: 'prop_padding', type: 'padding', group: 'group_spacing' },
+    PADDING_PROPERTY,
     { key: 'border', label: 'prop_border', type: 'text', group: 'group_border' },
-    { key: 'border-radius', label: 'prop_border_radius', type: 'text', group: 'group_border' },
+    BORDER_RADIUS_PROPERTY,
     { key: 'full-width', label: 'prop_full_width', type: 'toggle', group: 'group_layout' },
   ],
 }

@@ -117,9 +117,11 @@ export interface EditorLabels {
   prop_background_repeat: string
   prop_background_height: string
   prop_background_width: string
+  prop_container_background: string
   prop_padding: string
   prop_border: string
   prop_border_radius: string
+  prop_inner_border_radius: string
   prop_border_color: string
   prop_border_width: string
   prop_border_style: string
@@ -140,6 +142,8 @@ export interface EditorLabels {
   prop_href: string
   prop_inner_padding: string
   prop_outer_padding: string
+  prop_icon_padding: string
+  prop_text_padding: string
   prop_text_transform: string
   prop_inner_background_color: string
   prop_icon_size: string
@@ -407,9 +411,11 @@ export const DEFAULT_LABELS: EditorLabels = {
   prop_background_repeat: '背景平铺',
   prop_background_height: '背景高度',
   prop_background_width: '背景宽度',
+  prop_container_background: '容器背景',
   prop_padding: '内边距',
   prop_border: '边框',
   prop_border_radius: '圆角',
+  prop_inner_border_radius: '内部圆角',
   prop_border_color: '颜色',
   prop_border_width: '宽度',
   prop_border_style: '样式',
@@ -430,6 +436,8 @@ export const DEFAULT_LABELS: EditorLabels = {
   prop_href: '链接 URL',
   prop_inner_padding: '内部边距',
   prop_outer_padding: '外部边距',
+  prop_icon_padding: '图标内边距',
+  prop_text_padding: '文本内边距',
   prop_text_transform: '大小写',
   prop_inner_background_color: '内部背景',
   prop_icon_size: '图标尺寸',
