@@ -65,6 +65,7 @@ function getIcon(type: string): string {
   const icons: Record<string, string> = {
     'mj-body': 'FileText',
     'mj-section': 'Rows3',
+    'mj-group': 'Columns2',
     'mj-column': 'Columns2',
     'mj-text': 'Type',
     'mj-image': 'Image',
@@ -83,6 +84,7 @@ function getIcon(type: string): string {
 function getTypeColor(type: string): string {
   const colors: Record<string, string> = {
     'mj-section': '#6366f1',
+    'mj-group': '#14b8a6',
     'mj-column': '#8b5cf6',
     'mj-text': '#059669',
     'mj-image': '#d97706',
@@ -193,40 +195,122 @@ function getShortLabel(node: EmailNode): string {
           </div>
         </div>
 
-        <!-- Column level -->
+        <!-- Column/group level -->
         <template v-if="!collapsed.has(section.id)">
-          <template v-for="(col, ci) in section.children" :key="col.id">
+          <template v-for="(child, childIndex) in section.children" :key="child.id">
             <div
               class="ebb-layers__node ebb-layers__node--indent-1"
               :class="{
-                'ebb-layers__node--selected': selection.selectedNodeId.value === col.id,
-                'ebb-layers__node--hovered': selection.hoveredNodeId.value === col.id,
+                'ebb-layers__node--selected': selection.selectedNodeId.value === child.id,
+                'ebb-layers__node--hovered': selection.hoveredNodeId.value === child.id,
               }"
               role="treeitem"
-              :aria-expanded="col.children.length ? !collapsed.has(col.id) : undefined"
-              :aria-selected="selection.selectedNodeId.value === col.id"
-              @click="selectNode(col.id, $event)"
-              @mouseenter="selection.hoverNode(col.id)"
+              :aria-expanded="child.children.length ? !collapsed.has(child.id) : undefined"
+              :aria-selected="selection.selectedNodeId.value === child.id"
+              @click="selectNode(child.id, $event)"
+              @mouseenter="selection.hoverNode(child.id)"
               @mouseleave="selection.hoverNode(null)"
             >
               <button
-                v-if="col.children.length"
+                v-if="child.children.length"
                 class="ebb-layers__toggle"
-                @click.stop="toggle(col.id)"
+                @click.stop="toggle(child.id)"
               >
-                <EIcon :name="collapsed.has(col.id) ? 'ChevronRight' : 'ChevronDown'" :size="10" />
+                <EIcon :name="collapsed.has(child.id) ? 'ChevronRight' : 'ChevronDown'" :size="10" />
               </button>
               <span v-else class="ebb-layers__toggle-spacer"></span>
-              <span class="ebb-layers__icon" :style="{ color: getTypeColor(col.type) }">
-                <EIcon :name="getIcon(col.type)" :size="12" />
+              <span class="ebb-layers__icon" :style="{ color: getTypeColor(child.type) }">
+                <EIcon :name="getIcon(child.type)" :size="12" />
               </span>
-              <span class="ebb-layers__label">{{ resolveLabel('column_label') }} {{ ci + 1 }}</span>
+              <span class="ebb-layers__label">
+                {{ resolveLabel(child.type === 'mj-group' ? 'group_label' : 'column_label') }} {{ childIndex + 1 }}
+              </span>
             </div>
 
+            <!-- Grouped columns -->
+            <template v-if="child.type === 'mj-group' && !collapsed.has(child.id)">
+              <template v-for="(col, ci) in child.children" :key="col.id">
+                <div
+                  class="ebb-layers__node ebb-layers__node--indent-2"
+                  :class="{
+                    'ebb-layers__node--selected': selection.selectedNodeId.value === col.id,
+                    'ebb-layers__node--hovered': selection.hoveredNodeId.value === col.id,
+                  }"
+                  role="treeitem"
+                  :aria-expanded="col.children.length ? !collapsed.has(col.id) : undefined"
+                  :aria-selected="selection.selectedNodeId.value === col.id"
+                  @click="selectNode(col.id, $event)"
+                  @mouseenter="selection.hoverNode(col.id)"
+                  @mouseleave="selection.hoverNode(null)"
+                >
+                  <button
+                    v-if="col.children.length"
+                    class="ebb-layers__toggle"
+                    @click.stop="toggle(col.id)"
+                  >
+                    <EIcon :name="collapsed.has(col.id) ? 'ChevronRight' : 'ChevronDown'" :size="10" />
+                  </button>
+                  <span v-else class="ebb-layers__toggle-spacer"></span>
+                  <span class="ebb-layers__icon" :style="{ color: getTypeColor(col.type) }">
+                    <EIcon :name="getIcon(col.type)" :size="12" />
+                  </span>
+                  <span class="ebb-layers__label">{{ resolveLabel('column_label') }} {{ ci + 1 }}</span>
+                </div>
+
+                <template v-if="!collapsed.has(col.id)">
+                  <div
+                    v-for="content in col.children"
+                    :key="content.id"
+                    class="ebb-layers__node ebb-layers__node--indent-3"
+                    :class="{
+                      'ebb-layers__node--selected': selection.selectedNodeId.value === content.id,
+                      'ebb-layers__node--hovered': selection.hoveredNodeId.value === content.id,
+                    }"
+                    role="treeitem"
+                    :aria-selected="selection.selectedNodeId.value === content.id"
+                    @click="selectNode(content.id, $event)"
+                    @mouseenter="selection.hoverNode(content.id)"
+                    @mouseleave="selection.hoverNode(null)"
+                  >
+                    <span class="ebb-layers__toggle-spacer"></span>
+                    <span class="ebb-layers__icon" :style="{ color: getTypeColor(content.type) }">
+                      <EIcon :name="getIcon(content.type)" :size="12" />
+                    </span>
+                    <span class="ebb-layers__label">{{ getShortLabel(content) }}</span>
+                    <div class="ebb-layers__actions">
+                      <button
+                        v-if="!isFirst(content.id, col.children)"
+                        class="ebb-layers__action-btn"
+                        :title="resolveLabel('move_up')"
+                        @click="onMoveUp(content.id, $event)"
+                      >
+                        <EIcon name="ChevronUp" :size="10" />
+                      </button>
+                      <button
+                        v-if="!isLast(content.id, col.children)"
+                        class="ebb-layers__action-btn"
+                        :title="resolveLabel('move_down')"
+                        @click="onMoveDown(content.id, $event)"
+                      >
+                        <EIcon name="ChevronDown" :size="10" />
+                      </button>
+                      <button
+                        class="ebb-layers__action-btn ebb-layers__action-btn--danger"
+                        :title="resolveLabel('delete_node')"
+                        @click="onDeleteNode(content.id, $event)"
+                      >
+                        <EIcon name="Trash2" :size="10" />
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </template>
+            </template>
+
             <!-- Content level -->
-            <template v-if="!collapsed.has(col.id)">
+            <template v-else-if="!collapsed.has(child.id)">
               <div
-                v-for="content in col.children"
+                v-for="content in child.children"
                 :key="content.id"
                 class="ebb-layers__node ebb-layers__node--indent-2"
                 :class="{
@@ -246,7 +330,7 @@ function getShortLabel(node: EmailNode): string {
                 <span class="ebb-layers__label">{{ getShortLabel(content) }}</span>
                 <div class="ebb-layers__actions">
                   <button
-                    v-if="!isFirst(content.id, col.children)"
+                    v-if="!isFirst(content.id, child.children)"
                     class="ebb-layers__action-btn"
                     :title="resolveLabel('move_up')"
                     @click="onMoveUp(content.id, $event)"
@@ -254,7 +338,7 @@ function getShortLabel(node: EmailNode): string {
                     <EIcon name="ChevronUp" :size="10" />
                   </button>
                   <button
-                    v-if="!isLast(content.id, col.children)"
+                    v-if="!isLast(content.id, child.children)"
                     class="ebb-layers__action-btn"
                     :title="resolveLabel('move_down')"
                     @click="onMoveDown(content.id, $event)"
@@ -370,6 +454,10 @@ html[data-theme='dark'] .ebb-layers__node:hover {
 
 .ebb-layers__node--indent-2 {
   padding-left: 40px;
+}
+
+.ebb-layers__node--indent-3 {
+  padding-left: 56px;
 }
 
 .ebb-layers__toggle {

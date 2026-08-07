@@ -1,5 +1,5 @@
 import type { BlockDefinition } from '../types'
-import { createSection, createColumn } from '../serializer/node-factory'
+import { createSection, createGroup, createColumn } from '../serializer/node-factory'
 
 export const layoutBlocks: BlockDefinition[] = [
   {
@@ -19,6 +19,19 @@ export const layoutBlocks: BlockDefinition[] = [
       createSection([
         createColumn([], { width: '50%' }),
         createColumn([], { width: '50%' }),
+      ]),
+  },
+  {
+    id: 'layout-2-col-mobile-inline',
+    label: 'block_layout_2_col_mobile_inline',
+    category: 'layout',
+    icon: 'Columns2',
+    factory: () =>
+      createSection([
+        createGroup([
+          createColumn([], { width: '50%' }),
+          createColumn([], { width: '50%' }),
+        ]),
       ]),
   },
   {

@@ -189,7 +189,8 @@ interface EmailNode {
 
 **Containers:**
 - mj-body: Root. attrs: background-color. children: mj-section | mj-wrapper
-- mj-section: Row. attrs: background-color, padding, background-url, background-size, background-repeat, full-width, direction. children: mj-column
+- mj-section: Row. attrs: background-color, padding, background-url, background-size, background-repeat, full-width, direction. children: mj-column | mj-group
+- mj-group: Column group. attrs: width (%), background-color, direction, vertical-align. children: mj-column. Use it only when columns must stay side-by-side on mobile.
 - mj-column: Column. attrs: width (%), padding, background-color, border, border-radius, vertical-align. children: content nodes
 - mj-wrapper: Groups sections. children: mj-section
 - mj-hero: Hero background. attrs: mode, background-height, background-width, background-color, background-url, padding, vertical-align. children: content nodes
@@ -212,10 +213,11 @@ interface EmailNode {
 
 1. body.type MUST be "mj-body"
 2. mj-body children: only mj-section or mj-wrapper
-3. mj-section children: only mj-column (1-4, widths sum to 100%)
-4. mj-column children: only content nodes (mj-text, mj-image, mj-button, mj-divider, mj-spacer, mj-social)
-5. mj-social children: only mj-social-element
-6. Every node MUST have: id (unique string), type, attributes (object), children (array)
+3. mj-section children: only mj-column or mj-group
+4. mj-group children: only mj-column; use percentage widths for grouped columns
+5. mj-column children: only content nodes (mj-text, mj-image, mj-button, mj-divider, mj-spacer, mj-social)
+6. mj-social children: only mj-social-element
+7. Every node MUST have: id (unique string), type, attributes (object), children (array)
 
 ## CRITICAL MJML Rendering Rules
 

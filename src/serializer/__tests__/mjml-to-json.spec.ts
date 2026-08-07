@@ -42,6 +42,26 @@ describe('mjmlToDocument', () => {
     expect(col.children[0].htmlContent).toBe('Hello')
   })
 
+  it('parses grouped columns used for mobile-inline layouts', () => {
+    const mjml = `<mjml>
+      <mj-body>
+        <mj-section>
+          <mj-group>
+            <mj-column width="50%"><mj-text>Left</mj-text></mj-column>
+            <mj-column width="50%"><mj-text>Right</mj-text></mj-column>
+          </mj-group>
+        </mj-section>
+      </mj-body>
+    </mjml>`
+    const doc = mjmlToDocument(mjml)
+    const group = doc.body.children[0].children[0]
+
+    expect(group.type).toBe('mj-group')
+    expect(group.children).toHaveLength(2)
+    expect(group.children[0].type).toBe('mj-column')
+    expect(group.children[0].attributes.width).toBe('50%')
+  })
+
   it('parses attributes correctly', () => {
     const mjml = `<mjml>
       <mj-body>

@@ -448,6 +448,17 @@ function handleDrop(targetNodeId: string, position: DropPosition) {
   }
 }
 
+function findFirstColumnNode(node: EmailNode): EmailNode | null {
+  if (node.type === 'mj-column') return node
+
+  for (const child of node.children) {
+    const column = findFirstColumnNode(child)
+    if (column) return column
+  }
+
+  return null
+}
+
 function insertNodesAtTarget(nodes: EmailNode[], targetNodeId: string, position: DropPosition) {
   const targetNode = findNode(doc.document.value.body, targetNodeId)
   if (!targetNode) return
@@ -456,6 +467,7 @@ function insertNodesAtTarget(nodes: EmailNode[], targetNodeId: string, position:
   const isSectionLevelInsert = nodes.some((n) => SECTION_TYPES.includes(n.type))
   const isTargetSectionLevel = SECTION_TYPES.includes(targetNode.type)
   const isTargetColumn = targetNode.type === 'mj-column'
+  const isTargetGroup = targetNode.type === 'mj-group'
   const isTargetBody = targetNode.type === 'mj-body'
 
   // ── Case 1: Inserting section-level nodes ──
@@ -493,9 +505,9 @@ function insertNodesAtTarget(nodes: EmailNode[], targetNodeId: string, position:
     return
   }
 
-  // ── Case 2: Inserting content nodes into a section → route to first column ──
-  if (isTargetSectionLevel) {
-    const firstColumn = targetNode.children.find((c) => c.type === 'mj-column')
+  // ── Case 2: Inserting content nodes into a section/group → route to first column ──
+  if (isTargetSectionLevel || isTargetGroup) {
+    const firstColumn = findFirstColumnNode(targetNode)
     if (firstColumn) {
       for (const node of nodes) {
         doc.insertNode(firstColumn.id, firstColumn.children.length, node)
@@ -561,9 +573,9 @@ function moveExistingNode(nodeId: string, targetNodeId: string, position: DropPo
     return
   }
 
-  // Moving content into section → route to first column
-  if (SECTION_TYPES.includes(targetNode.type)) {
-    const firstColumn = targetNode.children.find((c) => c.type === 'mj-column')
+  // Moving content into section/group → route to first column
+  if (SECTION_TYPES.includes(targetNode.type) || targetNode.type === 'mj-group') {
+    const firstColumn = findFirstColumnNode(targetNode)
     if (firstColumn) {
       doc.moveNodeTo(nodeId, firstColumn.id, firstColumn.children.length)
     }

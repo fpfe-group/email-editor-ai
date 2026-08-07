@@ -129,6 +129,13 @@ export const PROPERTY_MAP: Partial<Record<EmailNodeType, PropertyDefinition[]>> 
     { key: 'vertical-align', label: 'prop_vertical_align', type: 'select', options: VERTICAL_ALIGN_OPTIONS, group: 'group_layout' },
   ],
 
+  'mj-group': [
+    { key: 'width', label: 'prop_width', type: 'text', group: 'group_dimensions' },
+    { key: 'background-color', label: 'prop_background_color', type: 'color', group: 'group_background' },
+    { key: 'direction', label: 'prop_direction', type: 'select', options: DIRECTION_OPTIONS, group: 'group_layout' },
+    { key: 'vertical-align', label: 'prop_vertical_align', type: 'select', options: VERTICAL_ALIGN_OPTIONS, group: 'group_layout' },
+  ],
+
   'mj-text': [
     CONTAINER_BACKGROUND_PROPERTY,
     { key: 'color', label: 'prop_color', type: 'color', group: 'group_text' },
@@ -248,6 +255,7 @@ export function getNodeTypeLabelKey(type: EmailNodeType): string {
   const keys: Record<EmailNodeType, string> = {
     'mj-body': 'node_mj_body',
     'mj-section': 'node_mj_section',
+    'mj-group': 'node_mj_group',
     'mj-column': 'node_mj_column',
     'mj-text': 'node_mj_text',
     'mj-image': 'node_mj_image',

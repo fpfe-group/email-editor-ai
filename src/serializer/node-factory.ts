@@ -33,6 +33,13 @@ export function createSection(
   )
 }
 
+export function createGroup(
+  children: EmailNode[] = [],
+  attributes: Record<string, string> = {},
+): EmailNode {
+  return createNode('mj-group', attributes, children)
+}
+
 export function createColumn(
   children: EmailNode[] = [],
   attributes: Record<string, string> = {},

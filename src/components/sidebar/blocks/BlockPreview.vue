@@ -33,6 +33,15 @@ const BTN = ACCENT
       <rect x="42" y="6" width="30" height="36" rx="2" :fill="BG" :stroke="LINE" stroke-width="0.5" />
     </template>
 
+    <!-- 2 colonnes preservees sur mobile -->
+    <template v-else-if="blockId === 'layout-2-col-mobile-inline'">
+      <rect x="6" y="5" width="68" height="38" rx="3" fill="none" :stroke="ACCENT" stroke-width="1" stroke-dasharray="3 2" />
+      <rect x="10" y="9" width="27" height="30" rx="2" :fill="BG" :stroke="LINE" stroke-width="0.5" />
+      <rect x="43" y="9" width="27" height="30" rx="2" :fill="BG" :stroke="LINE" stroke-width="0.5" />
+      <rect x="14" y="15" width="19" height="2" rx="1" :fill="ACCENT" />
+      <rect x="47" y="15" width="19" height="2" rx="1" :fill="ACCENT" />
+    </template>
+
     <!-- 3 colonnes -->
     <template v-else-if="blockId === 'layout-3-col'">
       <rect x="5" y="6" width="20" height="36" rx="2" :fill="BG" :stroke="LINE" stroke-width="0.5" />

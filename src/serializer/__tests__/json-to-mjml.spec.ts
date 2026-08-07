@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { documentToMjml } from '../json-to-mjml'
 import type { EmailDocument, EmailNode } from '../../types'
+import { layoutBlocks } from '../../blocks/layout-blocks'
+import mjml2html from 'mjml-browser'
 
 function makeMinimalDoc(body?: Partial<EmailNode>): EmailDocument {
   return {
@@ -73,6 +75,22 @@ describe('documentToMjml', () => {
     expect(mjml).toMatch(/<mj-divider[^>]*\/>/)
     expect(mjml).toMatch(/<mj-spacer[^>]*\/>/)
     expect(mjml).toMatch(/<mj-image[^>]*\/>/)
+  })
+
+  it('serializes mobile-inline two-column layout with mj-group', () => {
+    const block = layoutBlocks.find((item) => item.id === 'layout-2-col-mobile-inline')
+    expect(block).toBeDefined()
+
+    const section = block!.factory() as EmailNode
+    const doc = makeMinimalDoc({ children: [section] })
+    const mjml = documentToMjml(doc)
+
+    expect(mjml).toContain('<mj-group')
+    expect(mjml).toContain('<mj-column width="50%"')
+
+    const result = mjml2html(mjml)
+    expect(result.errors).toHaveLength(0)
+    expect(result.html).toMatch(/display:inline-block;vertical-align:top;width:50%;/)
   })
 
   it('serializes content nodes with innerHTML', () => {

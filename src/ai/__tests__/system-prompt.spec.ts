@@ -2,11 +2,12 @@ import { describe, it, expect } from 'vitest'
 import { buildTemplateSystemPrompt } from '../system-prompt'
 
 describe('buildTemplateSystemPrompt', () => {
-  it('includes all 13 EmailNodeTypes', () => {
+  it('includes all 14 EmailNodeTypes', () => {
     const prompt = buildTemplateSystemPrompt()
     const types = [
       'mj-body',
       'mj-section',
+      'mj-group',
       'mj-column',
       'mj-text',
       'mj-image',

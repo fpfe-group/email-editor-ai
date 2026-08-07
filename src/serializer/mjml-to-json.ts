@@ -14,6 +14,7 @@ import { createDefaultDocument } from './node-factory'
 const MJML_NODE_TYPES = new Set<string>([
   'mj-body',
   'mj-section',
+  'mj-group',
   'mj-column',
   'mj-text',
   'mj-image',

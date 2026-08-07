@@ -39,6 +39,7 @@ export interface EditorLabels {
   // ─── 布局区块 ───
   block_layout_1_col: string
   block_layout_2_col: string
+  block_layout_2_col_mobile_inline: string
   block_layout_3_col: string
   block_layout_4_col: string
   block_layout_sidebar_left: string
@@ -86,6 +87,7 @@ export interface EditorLabels {
   // ─── 节点类型文案 ───
   node_mj_body: string
   node_mj_section: string
+  node_mj_group: string
   node_mj_column: string
   node_mj_text: string
   node_mj_image: string
@@ -207,6 +209,7 @@ export interface EditorLabels {
 
   // ─── 图层面板 ───
   section_label: string
+  group_label: string
   column_label: string
   empty_canvas_hint: string
 
@@ -332,6 +335,7 @@ export const DEFAULT_LABELS: EditorLabels = {
   // ─── 布局区块 ───
   block_layout_1_col: '1 列',
   block_layout_2_col: '2 列',
+  block_layout_2_col_mobile_inline: '移动端双列',
   block_layout_3_col: '3 列',
   block_layout_4_col: '4 列',
   block_layout_sidebar_left: '左侧栏',
@@ -379,6 +383,7 @@ export const DEFAULT_LABELS: EditorLabels = {
   // ─── 节点类型文案 ───
   node_mj_body: '正文',
   node_mj_section: '区段',
+  node_mj_group: '列组',
   node_mj_column: '列',
   node_mj_text: '文本',
   node_mj_image: '图片',
@@ -500,6 +505,7 @@ export const DEFAULT_LABELS: EditorLabels = {
 
   // ─── 图层面板 ───
   section_label: '区段',
+  group_label: '列组',
   column_label: '列',
   empty_canvas_hint: '拖拽区块到画布，开始搭建邮件',
 

@@ -18,6 +18,7 @@ export type NodeId = string
 export type EmailNodeType =
   | 'mj-body'
   | 'mj-section'
+  | 'mj-group'
   | 'mj-column'
   | 'mj-text'
   | 'mj-image'
@@ -37,6 +38,7 @@ export const CONTENT_NODE_TYPES: EmailNodeType[] = ['mj-text', 'mj-button']
 export const CONTAINER_NODE_TYPES: EmailNodeType[] = [
   'mj-body',
   'mj-section',
+  'mj-group',
   'mj-column',
   'mj-hero',
   'mj-wrapper',
