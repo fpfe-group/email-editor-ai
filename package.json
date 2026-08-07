@@ -1,6 +1,6 @@
 {
   "name": "@fpfe-group/email-editor-ai",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Vue 3 MJML email editor with AI generation, drag-and-drop blocks, MJML source editing, HTML preview, and email builder templates",
   "license": "MIT",
   "type": "module",
